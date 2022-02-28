@@ -8,6 +8,7 @@ const Output = styled("div")(({ theme }) => ({
   alignItems: "center",
   borderRadius: "4px",
   backgroundColor: theme.palette.mode === "dark" ? "#49454F" : "#E7E0EC",
+  overflow: "hidden",
 }));
 
 const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
