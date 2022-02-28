@@ -1,4 +1,4 @@
-import { ButtonBase, Snackbar, Stack, styled } from "@mui/material";
+import { ButtonBase, InputBase, Snackbar, Stack, styled } from "@mui/material";
 import { FC, useCallback, useEffect, useState } from "react";
 import {
   generatePassword,
@@ -6,14 +6,11 @@ import {
 } from "../core/generate_password";
 import { useSettings } from "../core/use_settings";
 
-const Output = styled("div")(({ theme }) => ({
+const Output = styled(InputBase)(({ theme }) => ({
   padding: "0 16px",
   height: "56px",
-  display: "flex",
-  alignItems: "center",
   borderRadius: "4px",
   backgroundColor: theme.palette.mode === "dark" ? "#49454F" : "#E7E0EC",
-  overflow: "hidden",
 }));
 
 const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
@@ -67,7 +64,7 @@ export const Generate: FC = () => {
 
   return (
     <Stack spacing={3}>
-      <Output>{password}</Output>
+      <Output value={password} readOnly />
 
       <Stack direction="row" spacing={2}>
         <FilledTonalButton onClick={generate}>Generate</FilledTonalButton>
