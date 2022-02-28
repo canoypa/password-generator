@@ -1,5 +1,10 @@
-import { ButtonBase, Stack, styled } from "@mui/material";
-import { FC } from "react";
+import { ButtonBase, Snackbar, Stack, styled } from "@mui/material";
+import { FC, useCallback, useEffect, useState } from "react";
+import {
+  generatePassword,
+  GeneratePasswordArgs,
+} from "../core/generate_password";
+import { useSettings } from "../core/use_settings";
 
 const Output = styled("div")(({ theme }) => ({
   padding: "0 16px",
@@ -19,15 +24,67 @@ const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#4A4458" : "#E8DEF8",
 }));
 
+type CopiedSnackbarState = {
+  key: number;
+  open: boolean;
+};
+const DefaultCopiedSnackbarState: CopiedSnackbarState = {
+  key: 0,
+  open: false,
+};
+
 export const Generate: FC = () => {
+  const settings = useSettings();
+
+  const [password, setPassword] = useState<string>("");
+
+  const [copiedSnackState, setCopiedSnackState] = useState<CopiedSnackbarState>(
+    DefaultCopiedSnackbarState
+  );
+
+  const generate = useCallback(() => {
+    const options: GeneratePasswordArgs = {
+      length: settings.length,
+      includeType: settings.includeType,
+    };
+
+    const password = generatePassword(options);
+    setPassword(password);
+  }, [settings]);
+
+  const copy = useCallback(() => {
+    navigator.clipboard.writeText(password);
+
+    setCopiedSnackState({ key: Date.now(), open: true });
+  }, [password]);
+
+  const onCloseSnackbar = useCallback(() => {
+    setCopiedSnackState(DefaultCopiedSnackbarState);
+  }, []);
+
+  // re-generate password when first mount or update settings
+  useEffect(() => generate(), [generate, settings]);
+
   return (
     <Stack spacing={3}>
-      <Output>{"todo"}</Output>
+      <Output>{password}</Output>
 
       <Stack direction="row" spacing={2}>
-        <FilledTonalButton>Generate</FilledTonalButton>
-        <FilledTonalButton>Copy</FilledTonalButton>
+        <FilledTonalButton onClick={generate}>Generate</FilledTonalButton>
+        <FilledTonalButton onClick={copy}>Copy</FilledTonalButton>
       </Stack>
+
+      <Snackbar
+        key={copiedSnackState.key}
+        open={copiedSnackState.open}
+        onClose={onCloseSnackbar}
+        autoHideDuration={2000}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        message="Copied to clipboard!"
+      />
     </Stack>
   );
 };
