@@ -1,0 +1,46 @@
+{
+  "name": "Password Generator",
+  "short_name": "Password",
+  "description": "Password Generator",
+
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1C1B1F",
+
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+
+  "screenshots": [
+    {
+      "src": "screenshots/0.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+
+  "start_url": ".",
+  "prefer_related_applications": false
+}
