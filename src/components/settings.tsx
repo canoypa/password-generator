@@ -18,8 +18,6 @@ export const Settings: FC = () => {
   const [lengthOpen, setLengthOpen] = useState(false);
   const [typesOpen, setTypesOpen] = useState(false);
 
-  console.log(types);
-
   return (
     <>
       <List>
