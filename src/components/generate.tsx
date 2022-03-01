@@ -1,5 +1,6 @@
 import { ButtonBase, InputBase, Snackbar, Stack, styled } from "@mui/material";
 import { FC, useCallback, useEffect, useState } from "react";
+import { similarChars } from "../core/constant";
 import {
   generatePassword,
   GeneratePasswordArgs,
@@ -43,6 +44,7 @@ export const Generate: FC = () => {
     const options: GeneratePasswordArgs = {
       length: settings.length,
       includeType: settings.includeType,
+      excludeChars: similarChars,
     };
 
     const password = generatePassword(options);
