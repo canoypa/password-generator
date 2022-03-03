@@ -12,6 +12,12 @@ const Home: NextPage = () => {
       <NextSeo
         title="Password Generator"
         description="Generate secure password simply and quickly."
+        canonical="https://password.tepbyte.dev/"
+        openGraph={{
+          url: "https://password.tepbyte.dev/",
+          title: "Password Generator",
+          description: "Generate secure password simply and quickly.",
+        }}
       />
 
       <Stack mx="auto" py={3} maxWidth="sm" spacing={8}>
