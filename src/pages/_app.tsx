@@ -1,10 +1,20 @@
+import { CacheProvider, EmotionCache } from "@emotion/react";
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
+import { createEmotionCache } from "../core/emotionCache";
 import { darkTheme, lightTheme } from "../core/theme";
 
-function MyApp({ Component, pageProps }: AppProps) {
+type MyAppProps = AppProps & {
+  emotionCache?: EmotionCache;
+};
+
+function MyApp({
+  Component,
+  pageProps,
+  emotionCache = createEmotionCache(),
+}: MyAppProps) {
   const isDarkScheme = useMediaQuery("(prefers-color-scheme:dark)");
 
   return (
@@ -23,11 +33,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
 
       <RecoilRoot>
-        <ThemeProvider theme={isDarkScheme ? darkTheme : lightTheme}>
-          <CssBaseline />
+        <CacheProvider value={emotionCache}>
+          <ThemeProvider theme={isDarkScheme ? darkTheme : lightTheme}>
+            <CssBaseline />
 
-          <Component {...pageProps} />
-        </ThemeProvider>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </CacheProvider>
       </RecoilRoot>
     </>
   );
