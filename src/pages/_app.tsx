@@ -15,7 +15,7 @@ function MyApp({
   pageProps,
   emotionCache = createEmotionCache(),
 }: MyAppProps) {
-  const isDarkScheme = useMediaQuery("(prefers-color-scheme:dark)");
+  const isLightScheme = useMediaQuery("(prefers-color-scheme:light)");
 
   return (
     <>
@@ -34,7 +34,7 @@ function MyApp({
 
       <RecoilRoot>
         <CacheProvider value={emotionCache}>
-          <ThemeProvider theme={isDarkScheme ? darkTheme : lightTheme}>
+          <ThemeProvider theme={isLightScheme ? lightTheme : darkTheme}>
             <CssBaseline />
 
             <Component {...pageProps} />
