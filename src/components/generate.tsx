@@ -11,7 +11,7 @@ const Output = styled(InputBase)(({ theme }) => ({
   padding: "0 16px",
   height: "56px",
   borderRadius: "4px",
-  backgroundColor: theme.palette.mode === "dark" ? "#49454F" : "#E7E0EC",
+  backgroundColor: theme.palette.surfaceVariant.main,
 }));
 
 const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
@@ -19,7 +19,7 @@ const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
   height: "40px",
   width: "100%",
   borderRadius: "40px",
-  backgroundColor: theme.palette.mode === "dark" ? "#4A4458" : "#E8DEF8",
+  backgroundColor: theme.palette.secondaryContainer.main,
 }));
 
 type CopiedSnackbarState = {
