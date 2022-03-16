@@ -11,8 +11,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from "@mui/material";
-import { FC } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { FC, useState } from "react";
 import { CharType } from "../../core/constant";
 
 const put = (arr: CharType[], type: CharType, enable: boolean): CharType[] => {
@@ -35,10 +34,6 @@ const formControls = [
   },
 ];
 
-type FormData = {
-  types: CharType[];
-};
-
 type FragmentProps = {
   onSubmit: (newValue: CharType[]) => void;
   onClose: () => void;
@@ -49,17 +44,10 @@ export const IncludeTypeFragment: FC<FragmentProps> = ({
   onClose,
   value,
 }) => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<FormData>({
-    mode: "onChange",
-    defaultValues: { types: value },
-  });
+  const [currentValue, setCurrentValue] = useState<CharType[]>(value);
 
-  const submit: SubmitHandler<FormData> = (data) => {
-    onSubmit(data.types);
+  const submit = () => {
+    onSubmit(currentValue);
     onClose();
   };
 
@@ -68,42 +56,30 @@ export const IncludeTypeFragment: FC<FragmentProps> = ({
       <DialogTitle>Include Characters</DialogTitle>
 
       <DialogContent>
-        <form onSubmit={handleSubmit(submit)}>
-          <List>
-            <Controller
-              name="types"
-              control={control}
-              render={({ field }) => (
-                <>
-                  {formControls.map(({ type, primary }) => {
-                    const value = field.value.includes(type);
+        <List>
+          {formControls.map(({ type, primary }) => {
+            const value = currentValue.includes(type);
 
-                    return (
-                      <ListItem
-                        key={type}
-                        disablePadding
-                        onClick={() =>
-                          field.onChange(put(field.value, type, !value))
-                        }
-                      >
-                        <ListItemButton>
-                          <ListItemText primary={primary} />
-                          <ListItemSecondaryAction>
-                            <Checkbox checked={value} />
-                          </ListItemSecondaryAction>
-                        </ListItemButton>
-                      </ListItem>
-                    );
-                  })}
-                </>
-              )}
-            />
-          </List>
-        </form>
+            return (
+              <ListItem
+                key={type}
+                disablePadding
+                onClick={() => setCurrentValue(put(currentValue, type, !value))}
+              >
+                <ListItemButton>
+                  <ListItemText primary={primary} />
+                  <ListItemSecondaryAction>
+                    <Checkbox checked={value} />
+                  </ListItemSecondaryAction>
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={handleSubmit(submit)}>Ok</Button>
+        <Button onClick={submit}>Ok</Button>
       </DialogActions>
     </>
   );
