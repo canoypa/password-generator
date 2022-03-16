@@ -10,3 +10,11 @@ export const CharType = {
   Upper: "upper",
 } as const;
 export type CharType = typeof CharType[keyof typeof CharType];
+
+export const CharTypeValues: CharType[] = Object.values(CharType);
+
+export const CharTypeLabel: Record<CharType, string> = {
+  [CharType.Digit]: "Digit",
+  [CharType.Lower]: "Lower",
+  [CharType.Upper]: "Upper",
+};

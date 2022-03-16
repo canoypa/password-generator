@@ -1,6 +1,7 @@
 import localforage from "localforage";
 import { atom } from "recoil";
 import { CharType } from "./constant";
+import { SettingIncludeTypes } from "./settings";
 
 export const PasswordLength = atom<number>({
   key: "PasswordLength",
@@ -20,27 +21,18 @@ export const PasswordLength = atom<number>({
   ],
 });
 
-export const IncludeTypes = atom<CharType[]>({
+export const IncludeTypes = atom<SettingIncludeTypes>({
   key: "IncludeTypes",
-  default: [CharType.Digit, CharType.Lower, CharType.Upper],
+  default: {
+    [CharType.Digit]: true,
+    [CharType.Lower]: true,
+    [CharType.Upper]: true,
+  },
   effects: [
     ({ setSelf, onSet }) => {
-      const isCharType = (v: unknown): v is CharType[] => {
-        if (
-          Array.isArray(v) &&
-          v.every((v) => Object.values(CharType).includes(v))
-        ) {
-          return true;
-        }
-        return false;
-      };
-
       const getInit = async () => {
         const value = await localforage.getItem("settings.includeTypes");
-
-        if (isCharType(value)) {
-          setSelf(value);
-        }
+        if (value) setSelf(value as SettingIncludeTypes);
       };
       getInit();
 

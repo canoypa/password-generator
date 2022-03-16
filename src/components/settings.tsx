@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { FC, useState } from "react";
 import { useRecoilState } from "recoil";
+import { CharTypeLabel, CharTypeValues } from "../core/constant";
 import { IncludeTypes, PasswordLength } from "../core/settings_store";
 import { IncludeTypeDialog } from "./settings/include_type_dialog";
 import { PasswordLengthDialog } from "./settings/password_length_dialog";
@@ -31,7 +32,10 @@ export const Settings: FC = () => {
           <ListItemButton onClick={() => setTypesOpen(true)}>
             <ListItemText
               primary="Include Characters"
-              secondary={types.join(", ")}
+              secondary={CharTypeValues.reduce<string[]>((pre, type) => {
+                if (types[type]) return [...pre, CharTypeLabel[type]];
+                return pre;
+              }, []).join(", ")}
             />
           </ListItemButton>
         </ListItem>
