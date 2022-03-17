@@ -12,23 +12,11 @@ import {
   ListItemText,
 } from "@mui/material";
 import { FC, useState } from "react";
-import { CharType } from "../../core/constant";
-import { SettingIncludeTypes } from "../../core/settings";
-
-const formControls = [
-  {
-    type: CharType.Digit,
-    primary: "Digit",
-  },
-  {
-    type: CharType.Lower,
-    primary: "Lower",
-  },
-  {
-    type: CharType.Upper,
-    primary: "Upper",
-  },
-];
+import { CharTypeLabel } from "../../core/constant";
+import {
+  SettingIncludeTypes,
+  SettingIncludeTypesKeys,
+} from "../../core/settings";
 
 type FragmentProps = {
   onSubmit: (newValue: SettingIncludeTypes) => void;
@@ -53,8 +41,9 @@ export const IncludeTypeFragment: FC<FragmentProps> = ({
 
       <DialogContent>
         <List>
-          {formControls.map(({ type, primary }) => {
+          {SettingIncludeTypesKeys.map((type) => {
             const value = currentValue[type];
+            const primary = CharTypeLabel[type];
 
             return (
               <ListItem
