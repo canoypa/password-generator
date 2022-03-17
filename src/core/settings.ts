@@ -1,5 +1,5 @@
-import localforage from "localforage";
 import { CharType } from "./constant";
+import { getAppDatabase } from "./idb";
 
 export type SettingPasswordLength = number;
 export type SettingIncludeTypes = Record<CharType, boolean>;
@@ -26,7 +26,9 @@ export const SettingIncludeTypesKeys: CharType[] = Object.keys(
 export const getSetting = async <K extends SettingKeys>(
   key: K
 ): Promise<Settings[K]> => {
-  const value = await localforage.getItem(key);
+  const db = await getAppDatabase();
+
+  const value = await db.get("settings", key);
 
   if (!value) return DefaultSettings[key];
   return value as Settings[K];
@@ -36,6 +38,9 @@ export const setSetting = async <K extends SettingKeys, V extends Settings[K]>(
   key: K,
   value: V
 ): Promise<V> => {
-  localforage.setItem(key, value);
+  const db = await getAppDatabase();
+
+  db.put("settings", value, key);
+
   return value;
 };
