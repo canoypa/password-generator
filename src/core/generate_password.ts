@@ -1,7 +1,7 @@
 import { arrayShuffle } from "./array_shuffle";
-import { CharType, CharTypeValues, digits, lowers, uppers } from "./constant";
+import { CharType, digits, lowers, uppers } from "./constant";
 import { getRandom } from "./get_random";
-import { SettingIncludeTypes } from "./settings";
+import { SettingIncludeTypes, SettingIncludeTypesKeys } from "./settings";
 
 const pick = (rand: number, chars: string): string => {
   return chars[Math.round((chars.length - 1) * rand)];
@@ -25,7 +25,7 @@ const getAvailableChars = (
 ): string => {
   let chars = "";
 
-  for (const type of CharTypeValues) {
+  for (const type of SettingIncludeTypesKeys) {
     if (includeTypes[type]) chars += enableChars[type];
   }
 

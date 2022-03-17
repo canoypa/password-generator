@@ -7,3 +7,7 @@ export const DefaultSettingIncludeTypes: SettingIncludeTypes = {
   [CharType.Lower]: true,
   [CharType.Upper]: true,
 };
+
+export const SettingIncludeTypesKeys: CharType[] = Object.keys(
+  DefaultSettingIncludeTypes
+) as CharType[];
