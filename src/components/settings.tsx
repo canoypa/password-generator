@@ -6,6 +6,8 @@ import {
   ListSubheader,
 } from "@mui/material";
 import { FC, useState } from "react";
+import { CharTypeLabel } from "../core/constant";
+import { SettingIncludeTypesKeys } from "../core/settings";
 import {
   useIncludeTypesSetting,
   usePasswordLengthSetting,
@@ -36,7 +38,14 @@ export const Settings: FC = () => {
           <ListItemButton onClick={() => setTypesOpen(true)}>
             <ListItemText
               primary="Include Characters"
-              secondary={types ? types.join(", ") : "..."}
+              secondary={
+                types
+                  ? SettingIncludeTypesKeys.reduce<string[]>((pre, type) => {
+                      if (types[type]) return [...pre, CharTypeLabel[type]];
+                      return pre;
+                    }, []).join(", ")
+                  : "..."
+              }
             />
           </ListItemButton>
         </ListItem>

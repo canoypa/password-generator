@@ -1,16 +1,27 @@
 import localforage from "localforage";
 import { CharType } from "./constant";
 
+export type SettingPasswordLength = number;
+export type SettingIncludeTypes = Record<CharType, boolean>;
+
 export type Settings = {
-  passwordLength: number;
-  includeTypes: CharType[];
+  passwordLength: SettingPasswordLength;
+  includeTypes: SettingIncludeTypes;
 };
 export type SettingKeys = keyof Settings;
 
 export const DefaultSettings: Settings = {
   passwordLength: 16,
-  includeTypes: [CharType.Digit, CharType.Lower, CharType.Upper],
+  includeTypes: {
+    [CharType.Digit]: true,
+    [CharType.Lower]: true,
+    [CharType.Upper]: true,
+  },
 };
+
+export const SettingIncludeTypesKeys: CharType[] = Object.keys(
+  DefaultSettings.includeTypes
+) as CharType[];
 
 export const getSetting = async <K extends SettingKeys>(
   key: K

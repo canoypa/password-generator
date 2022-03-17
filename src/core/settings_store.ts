@@ -1,16 +1,20 @@
 import useSWR from "swr";
-import { CharType } from "./constant";
-import { getSetting, setSetting } from "./settings";
+import {
+  getSetting,
+  setSetting,
+  SettingIncludeTypes,
+  SettingPasswordLength,
+} from "./settings";
 
 export const usePasswordLengthSetting = () => {
   const key = "passwordLength";
 
-  const { data: state, mutate } = useSWR<number>(
+  const { data: state, mutate } = useSWR<SettingPasswordLength>(
     typeof window !== "undefined" && key,
     getSetting
   );
 
-  const setState = (newState: number) =>
+  const setState = (newState: SettingPasswordLength) =>
     mutate(setSetting(key, newState), false);
 
   return [state, setState] as const;
@@ -19,12 +23,12 @@ export const usePasswordLengthSetting = () => {
 export const useIncludeTypesSetting = () => {
   const key = "includeTypes";
 
-  const { data: state, mutate } = useSWR<CharType[]>(
+  const { data: state, mutate } = useSWR<SettingIncludeTypes>(
     typeof window !== "undefined" && key,
     getSetting
   );
 
-  const setState = (newState: CharType[]) =>
+  const setState = (newState: SettingIncludeTypes) =>
     mutate(setSetting(key, newState), false);
 
   return [state, setState] as const;
