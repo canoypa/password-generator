@@ -11,55 +11,27 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from "@mui/material";
-import { FC } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { CharType } from "../../core/constant";
-
-const put = (arr: CharType[], type: CharType, enable: boolean): CharType[] => {
-  const filleted = arr.filter((v) => v !== type);
-  return enable ? [...filleted, type] : filleted;
-};
-
-const formControls = [
-  {
-    type: CharType.Digit,
-    primary: "Digit",
-  },
-  {
-    type: CharType.Lower,
-    primary: "Lower",
-  },
-  {
-    type: CharType.Upper,
-    primary: "Upper",
-  },
-];
-
-type FormData = {
-  types: CharType[];
-};
+import { FC, useState } from "react";
+import { CharTypeLabel } from "../../core/constant";
+import {
+  SettingIncludeTypes,
+  SettingIncludeTypesKeys,
+} from "../../core/settings";
 
 type FragmentProps = {
-  onSubmit: (newValue: CharType[]) => void;
+  onSubmit: (newValue: SettingIncludeTypes) => void;
   onClose: () => void;
-  value: CharType[];
+  value: SettingIncludeTypes;
 };
 export const IncludeTypeFragment: FC<FragmentProps> = ({
   onSubmit,
   onClose,
   value,
 }) => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<FormData>({
-    mode: "onChange",
-    defaultValues: { types: value },
-  });
+  const [currentValue, setCurrentValue] = useState<SettingIncludeTypes>(value);
 
-  const submit: SubmitHandler<FormData> = (data) => {
-    onSubmit(data.types);
+  const submit = () => {
+    onSubmit(currentValue);
     onClose();
   };
 
@@ -68,42 +40,33 @@ export const IncludeTypeFragment: FC<FragmentProps> = ({
       <DialogTitle>Include Characters</DialogTitle>
 
       <DialogContent>
-        <form onSubmit={handleSubmit(submit)}>
-          <List>
-            <Controller
-              name="types"
-              control={control}
-              render={({ field }) => (
-                <>
-                  {formControls.map(({ type, primary }) => {
-                    const value = field.value.includes(type);
+        <List>
+          {SettingIncludeTypesKeys.map((type) => {
+            const value = currentValue[type];
+            const primary = CharTypeLabel[type];
 
-                    return (
-                      <ListItem
-                        key={type}
-                        disablePadding
-                        onClick={() =>
-                          field.onChange(put(field.value, type, !value))
-                        }
-                      >
-                        <ListItemButton>
-                          <ListItemText primary={primary} />
-                          <ListItemSecondaryAction>
-                            <Checkbox checked={value} />
-                          </ListItemSecondaryAction>
-                        </ListItemButton>
-                      </ListItem>
-                    );
-                  })}
-                </>
-              )}
-            />
-          </List>
-        </form>
+            return (
+              <ListItem
+                key={type}
+                disablePadding
+                onClick={() =>
+                  setCurrentValue({ ...currentValue, [type]: !value })
+                }
+              >
+                <ListItemButton>
+                  <ListItemText primary={primary} />
+                  <ListItemSecondaryAction>
+                    <Checkbox checked={value} />
+                  </ListItemSecondaryAction>
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={handleSubmit(submit)}>Ok</Button>
+        <Button onClick={submit}>Ok</Button>
       </DialogActions>
     </>
   );

@@ -12,6 +12,7 @@ const Output = styled(InputBase)(({ theme }) => ({
   height: "56px",
   borderRadius: "4px",
   backgroundColor: theme.palette.surfaceVariant.main,
+  fontFamily: "monospace",
 }));
 
 const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
@@ -41,6 +42,8 @@ export const Generate: FC = () => {
   );
 
   const generate = useCallback(() => {
+    if (!settings.length || !settings.includeType) return;
+
     const options: GeneratePasswordArgs = {
       length: settings.length,
       includeType: settings.includeType,

@@ -6,12 +6,20 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { FC } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { ChangeEventHandler, FC, useCallback, useState } from "react";
 
-type FormData = {
-  length: number;
-};
+type InputError =
+  | {
+      isError: true;
+      errorMessage: string;
+    }
+  | {
+      isError: false;
+      errorMessage?: never;
+    };
+
+const min = 4;
+const max = 4096;
 
 type FragmentProps = {
   onSubmit: (newValue: number) => void;
@@ -23,17 +31,29 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
   onClose,
   value,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    mode: "onChange",
-    defaultValues: { length: value },
-  });
+  const [currentValue, setCurrentValue] = useState<number>(value);
 
-  const submit: SubmitHandler<FormData> = (data) => {
-    onSubmit(data.length);
+  const [inputValue, setInputValue] = useState<string>(value.toString());
+  const [inputError, setInputError] = useState<InputError>({ isError: false });
+
+  const onChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
+    const newValue = parseInt(e.target.value, 10);
+
+    setInputValue(e.target.value);
+
+    if (Number.isNaN(newValue))
+      setInputError({ isError: true, errorMessage: "Invalid number." });
+    else if (newValue < min)
+      setInputError({ isError: true, errorMessage: `Min value is ${min}.` });
+    else if (newValue > max)
+      setInputError({ isError: true, errorMessage: `Max value is ${max}.` });
+    else setInputError({ isError: false });
+
+    if (!Number.isNaN(newValue)) setCurrentValue(newValue);
+  }, []);
+
+  const submit = () => {
+    onSubmit(inputError.isError ? value : currentValue);
     onClose();
   };
 
@@ -42,31 +62,23 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
       <DialogTitle>Password Length</DialogTitle>
 
       <DialogContent>
-        <form onSubmit={handleSubmit(submit)}>
-          <TextField
-            {...register("length", {
-              valueAsNumber: true,
-              min: 4,
-              max: 4096,
-            })}
-            variant="standard"
-            type="number"
-            autoFocus
-            fullWidth
-            error={!!errors.length}
-            helperText={
-              errors.length?.type === "min"
-                ? "Minimum length is 4."
-                : errors.length?.type === "max"
-                ? "Maximum length is 4096."
-                : ""
-            }
-          />
-        </form>
+        <TextField
+          variant="standard"
+          type="number"
+          autoFocus
+          fullWidth
+          inputProps={{ min, max }}
+          error={inputError.isError}
+          helperText={inputError.errorMessage}
+          value={inputValue}
+          onInput={onChange}
+        />
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={handleSubmit(submit)}>Ok</Button>
+        <Button onClick={submit} disabled={inputError.isError}>
+          Ok
+        </Button>
       </DialogActions>
     </>
   );
