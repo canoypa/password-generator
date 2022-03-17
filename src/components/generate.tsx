@@ -12,6 +12,7 @@ const Output = styled(InputBase)(({ theme }) => ({
   height: "56px",
   borderRadius: "4px",
   backgroundColor: theme.palette.surfaceVariant.main,
+  fontFamily: "monospace",
 }));
 
 const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
