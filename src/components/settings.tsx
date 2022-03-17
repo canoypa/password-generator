@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { FC, useState } from "react";
 import { useRecoilState } from "recoil";
+import { CharTypeLabel } from "../core/constant";
 import { SettingIncludeTypesKeys } from "../core/settings";
 import { IncludeTypes, PasswordLength } from "../core/settings_store";
 import { IncludeTypeDialog } from "./settings/include_type_dialog";
@@ -34,7 +35,7 @@ export const Settings: FC = () => {
               primary="Include Characters"
               secondary={SettingIncludeTypesKeys.reduce<string[]>(
                 (pre, type) => {
-                  if (types[type]) return [...pre, type];
+                  if (types[type]) return [...pre, CharTypeLabel[type]];
                   return pre;
                 },
                 []
