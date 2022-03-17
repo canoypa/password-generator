@@ -1,7 +1,6 @@
 import localforage from "localforage";
 import { atom } from "recoil";
-import { CharType } from "./constant";
-import { SettingIncludeTypes } from "./settings";
+import { DefaultSettingIncludeTypes, SettingIncludeTypes } from "./settings";
 
 export const PasswordLength = atom<number>({
   key: "PasswordLength",
@@ -23,11 +22,7 @@ export const PasswordLength = atom<number>({
 
 export const IncludeTypes = atom<SettingIncludeTypes>({
   key: "IncludeTypes",
-  default: {
-    [CharType.Digit]: true,
-    [CharType.Lower]: true,
-    [CharType.Upper]: true,
-  },
+  default: DefaultSettingIncludeTypes,
   effects: [
     ({ setSelf, onSet }) => {
       const getInit = async () => {
