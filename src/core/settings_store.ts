@@ -1,39 +1,35 @@
-import localforage from "localforage";
-import { atom } from "recoil";
-import { DefaultSettingIncludeTypes, SettingIncludeTypes } from "./settings";
+import useSWR from "swr";
+import {
+  getSetting,
+  setSetting,
+  SettingIncludeTypes,
+  SettingPasswordLength,
+} from "./settings";
 
-export const PasswordLength = atom<number>({
-  key: "PasswordLength",
-  default: 16,
-  effects: [
-    ({ setSelf, onSet }) => {
-      const getInit = async () => {
-        const value = await localforage.getItem("settings.passwordLength");
-        if (typeof value === "number") setSelf(value);
-      };
-      getInit();
+export const usePasswordLengthSetting = () => {
+  const key = "passwordLength";
 
-      onSet((v) => {
-        localforage.setItem("settings.passwordLength", v);
-      });
-    },
-  ],
-});
+  const { data: state, mutate } = useSWR<SettingPasswordLength>(
+    typeof window !== "undefined" && key,
+    getSetting
+  );
 
-export const IncludeTypes = atom<SettingIncludeTypes>({
-  key: "IncludeTypes",
-  default: DefaultSettingIncludeTypes,
-  effects: [
-    ({ setSelf, onSet }) => {
-      const getInit = async () => {
-        const value = await localforage.getItem("settings.includeTypes");
-        if (value) setSelf(value as SettingIncludeTypes);
-      };
-      getInit();
+  const setState = (newState: SettingPasswordLength) =>
+    mutate(setSetting(key, newState), false);
 
-      onSet((v) => {
-        localforage.setItem("settings.includeTypes", v);
-      });
-    },
-  ],
-});
+  return [state, setState] as const;
+};
+
+export const useIncludeTypesSetting = () => {
+  const key = "includeTypes";
+
+  const { data: state, mutate } = useSWR<SettingIncludeTypes>(
+    typeof window !== "undefined" && key,
+    getSetting
+  );
+
+  const setState = (newState: SettingIncludeTypes) =>
+    mutate(setSetting(key, newState), false);
+
+  return [state, setState] as const;
+};

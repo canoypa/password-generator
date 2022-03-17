@@ -1,7 +1,11 @@
 import { arrayShuffle } from "./array_shuffle";
 import { CharType, digits, lowers, uppers } from "./constant";
 import { getRandom } from "./get_random";
-import { SettingIncludeTypes, SettingIncludeTypesKeys } from "./settings";
+import {
+  SettingIncludeTypes,
+  SettingIncludeTypesKeys,
+  SettingPasswordLength,
+} from "./settings";
 
 const pick = (rand: number, chars: string): string => {
   return chars[Math.round((chars.length - 1) * rand)];
@@ -33,7 +37,7 @@ const getAvailableChars = (
 };
 
 export type GeneratePasswordArgs = {
-  length: number;
+  length: SettingPasswordLength;
   includeType: SettingIncludeTypes;
 
   excludeChars?: string;

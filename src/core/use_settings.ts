@@ -1,10 +1,12 @@
 import { useMemo } from "react";
-import { useRecoilValue } from "recoil";
-import { IncludeTypes, PasswordLength } from "./settings_store";
+import {
+  useIncludeTypesSetting,
+  usePasswordLengthSetting,
+} from "./settings_store";
 
 export const useSettings = () => {
-  const length = useRecoilValue(PasswordLength);
-  const includeType = useRecoilValue(IncludeTypes);
+  const [length] = usePasswordLengthSetting();
+  const [includeType] = useIncludeTypesSetting();
 
   const settings = useMemo(
     () => ({
