@@ -4,7 +4,6 @@ import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useMemo } from "react";
-import { RecoilRoot } from "recoil";
 import { createEmotionCache } from "../core/emotionCache";
 import { darkTheme, lightTheme } from "../core/theme";
 
@@ -42,15 +41,13 @@ function MyApp({
         <meta name="theme-color" content={theme.palette.background.default} />
       </Head>
 
-      <RecoilRoot>
-        <CacheProvider value={emotionCache}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
+      <CacheProvider value={emotionCache}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
 
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </CacheProvider>
-      </RecoilRoot>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </CacheProvider>
     </>
   );
 }
