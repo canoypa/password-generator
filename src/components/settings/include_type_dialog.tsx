@@ -13,11 +13,7 @@ import {
 } from "@mui/material";
 import { FC, useState } from "react";
 import { CharType } from "../../core/constant";
-
-const put = (arr: CharType[], type: CharType, enable: boolean): CharType[] => {
-  const filleted = arr.filter((v) => v !== type);
-  return enable ? [...filleted, type] : filleted;
-};
+import { SettingIncludeTypes } from "../../core/settings";
 
 const formControls = [
   {
@@ -35,16 +31,16 @@ const formControls = [
 ];
 
 type FragmentProps = {
-  onSubmit: (newValue: CharType[]) => void;
+  onSubmit: (newValue: SettingIncludeTypes) => void;
   onClose: () => void;
-  value: CharType[];
+  value: SettingIncludeTypes;
 };
 export const IncludeTypeFragment: FC<FragmentProps> = ({
   onSubmit,
   onClose,
   value,
 }) => {
-  const [currentValue, setCurrentValue] = useState<CharType[]>(value);
+  const [currentValue, setCurrentValue] = useState<SettingIncludeTypes>(value);
 
   const submit = () => {
     onSubmit(currentValue);
@@ -58,13 +54,15 @@ export const IncludeTypeFragment: FC<FragmentProps> = ({
       <DialogContent>
         <List>
           {formControls.map(({ type, primary }) => {
-            const value = currentValue.includes(type);
+            const value = currentValue[type];
 
             return (
               <ListItem
                 key={type}
                 disablePadding
-                onClick={() => setCurrentValue(put(currentValue, type, !value))}
+                onClick={() =>
+                  setCurrentValue({ ...currentValue, [type]: !value })
+                }
               >
                 <ListItemButton>
                   <ListItemText primary={primary} />
