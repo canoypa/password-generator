@@ -41,6 +41,8 @@ export const Generate: FC = () => {
   );
 
   const generate = useCallback(() => {
+    if (!settings.length || !settings.includeType) return;
+
     const options: GeneratePasswordArgs = {
       length: settings.length,
       includeType: settings.includeType,
