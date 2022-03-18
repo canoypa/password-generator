@@ -10,13 +10,13 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
+        <link rel="canonical" href="https://password.tepbyte.dev/" />
+
         <title>Password Generator</title>
         <meta
           name="description"
           content="Generate secure password simply and quickly."
         />
-
-        <link rel="canonical" href="https://password.tepbyte.dev/" />
 
         <meta property="og:url" content="https://password.tepbyte.dev/" />
         <meta property="og:title" content="Password Generator" />

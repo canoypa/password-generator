@@ -24,16 +24,6 @@ function MyApp({
   return (
     <>
       <Head>
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Password Generator" />
-
-        <meta
-          property="og:image"
-          content="https://password.tepbyte.dev/icons/icon-512-maskable.png"
-        />
-
-        <meta property="twitter:card" content="summary" />
-
         <meta name="theme-color" content={theme.palette.background.default} />
       </Head>
 
