@@ -69,7 +69,13 @@ export const Generate: FC = () => {
 
   return (
     <Stack spacing={3}>
-      <Output value={password} readOnly />
+      <Output
+        value={password}
+        readOnly
+        inputProps={{
+          "aria-label": "Generated password",
+        }}
+      />
 
       <Stack direction="row" spacing={2}>
         <FilledTonalButton onClick={generate}>Generate</FilledTonalButton>
