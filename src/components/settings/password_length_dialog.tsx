@@ -4,7 +4,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
+  FormControl,
+  FormHelperText,
+  Input,
 } from "@mui/material";
 import { ChangeEventHandler, FC, useCallback, useState } from "react";
 
@@ -62,17 +64,16 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
       <DialogTitle>Password Length</DialogTitle>
 
       <DialogContent>
-        <TextField
-          variant="standard"
-          type="number"
-          autoFocus
-          fullWidth
-          inputProps={{ min, max }}
-          error={inputError.isError}
-          helperText={inputError.errorMessage}
-          value={inputValue}
-          onInput={onChange}
-        />
+        <FormControl fullWidth error={inputError.isError}>
+          <Input
+            type="number"
+            inputProps={{ min, max }}
+            autoFocus
+            value={inputValue}
+            onInput={onChange}
+          />
+          <FormHelperText>{inputError.errorMessage}</FormHelperText>
+        </FormControl>
       </DialogContent>
 
       <DialogActions>
