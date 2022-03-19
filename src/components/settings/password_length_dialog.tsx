@@ -7,6 +7,8 @@ import {
   FormControl,
   FormHelperText,
   Input,
+  Slider,
+  Stack,
 } from "@mui/material";
 import { ChangeEventHandler, FC, useCallback, useState } from "react";
 
@@ -38,11 +40,7 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
   const [inputValue, setInputValue] = useState<string>(value.toString());
   const [inputError, setInputError] = useState<InputError>({ isError: false });
 
-  const onChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
-    const newValue = parseInt(e.target.value, 10);
-
-    setInputValue(e.target.value);
-
+  const onChange = useCallback((newValue: number) => {
     if (Number.isNaN(newValue))
       setInputError({ isError: true, errorMessage: "Invalid number." });
     else if (newValue < min)
@@ -54,6 +52,26 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
     if (!Number.isNaN(newValue)) setCurrentValue(newValue);
   }, []);
 
+  const onSliderChange = useCallback((_, _newValue: number | number[]) => {
+    if (typeof _newValue !== "number")
+      throw new Error("newValue is not a number");
+
+    const newValue = 2 ** _newValue;
+
+    setInputValue(newValue.toString());
+    onChange(newValue);
+  }, []);
+
+  const onInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (e) => {
+      const newValue = parseInt(e.target.value, 10);
+
+      setInputValue(e.target.value);
+      onChange(newValue);
+    },
+    []
+  );
+
   const submit = () => {
     onSubmit(inputError.isError ? value : currentValue);
     onClose();
@@ -64,16 +82,35 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
       <DialogTitle>Password Length</DialogTitle>
 
       <DialogContent>
-        <FormControl fullWidth error={inputError.isError}>
-          <Input
-            type="number"
-            inputProps={{ min, max }}
-            autoFocus
-            value={inputValue}
-            onInput={onChange}
-          />
-          <FormHelperText>{inputError.errorMessage}</FormHelperText>
-        </FormControl>
+        <Stack spacing={2}>
+          <Stack direction="row" spacing={3} pt={2}>
+            <Slider
+              min={2}
+              max={5}
+              value={Math.log(currentValue) / Math.log(2)}
+              onChange={onSliderChange}
+              step={null}
+              marks={[
+                { value: 2, label: "4" },
+                { value: 3, label: "8" },
+                { value: 4, label: "16" },
+                { value: 5, label: "32" },
+              ]}
+            />
+            <FormControl error={inputError.isError}>
+              <Input
+                error={inputError.isError}
+                type="number"
+                inputProps={{ min, max }}
+                value={inputValue}
+                onInput={onInputChange}
+              />
+            </FormControl>
+          </Stack>
+          <FormHelperText error={inputError.isError}>
+            {inputError.errorMessage}
+          </FormHelperText>
+        </Stack>
       </DialogContent>
 
       <DialogActions>
