@@ -42,6 +42,14 @@
     }
   ],
 
+  "shortcuts": [
+    {
+      "url": "/?copy=true",
+      "name": "Copy Password",
+      "icons": [{ "src": "shortcuts/quick-copy-192.png", "sizes": "192x192" }]
+    }
+  ],
+
   "start_url": ".",
   "prefer_related_applications": false
 }
