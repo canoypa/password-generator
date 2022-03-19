@@ -102,7 +102,6 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
                 error={inputError.isError}
                 type="number"
                 inputProps={{ min, max }}
-                autoFocus
                 value={inputValue}
                 onInput={onInputChange}
               />
