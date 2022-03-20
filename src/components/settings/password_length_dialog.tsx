@@ -10,7 +10,13 @@ import {
   Slider,
   Stack,
 } from "@mui/material";
-import { ChangeEventHandler, FC, useCallback, useState } from "react";
+import {
+  ChangeEventHandler,
+  FC,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 type InputError =
   | {
@@ -25,12 +31,14 @@ type InputError =
 const min = 4;
 const max = 4096;
 
-type FragmentProps = {
+type DialogProps = {
+  open: boolean;
   onSubmit: (newValue: number) => void;
   onClose: () => void;
   value: number;
 };
-export const PasswordLengthFragment: FC<FragmentProps> = ({
+export const PasswordLengthDialog: FC<DialogProps> = ({
+  open,
   onSubmit,
   onClose,
   value,
@@ -39,6 +47,15 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
 
   const [inputValue, setInputValue] = useState<string>(value.toString());
   const [inputError, setInputError] = useState<InputError>({ isError: false });
+
+  // reset state on open
+  useEffect(() => {
+    if (open) {
+      setCurrentValue(value);
+      setInputValue(value.toString());
+      setInputError({ isError: false });
+    }
+  }, [open, value]);
 
   const onChange = useCallback((newValue: number) => {
     if (Number.isNaN(newValue))
@@ -78,7 +95,7 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
   };
 
   return (
-    <>
+    <Dialog open={open} onClose={submit} maxWidth="xs" fullWidth>
       <DialogTitle>Password Length</DialogTitle>
 
       <DialogContent>
@@ -118,26 +135,6 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
           Ok
         </Button>
       </DialogActions>
-    </>
-  );
-};
-
-type DialogProps = {
-  open: boolean;
-} & FragmentProps;
-export const PasswordLengthDialog: FC<DialogProps> = ({
-  open,
-  onSubmit,
-  onClose,
-  value,
-}) => {
-  return (
-    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <PasswordLengthFragment
-        onClose={onClose}
-        onSubmit={onSubmit}
-        value={value}
-      />
     </Dialog>
   );
 };
