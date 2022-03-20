@@ -1,5 +1,4 @@
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -7,6 +6,7 @@ import {
   TextField,
 } from "@mui/material";
 import { ChangeEventHandler, FC, useCallback, useState } from "react";
+import { TextButton } from "../Button";
 
 type InputError =
   | {
@@ -76,9 +76,9 @@ export const PasswordLengthFragment: FC<FragmentProps> = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={submit} disabled={inputError.isError}>
-          Ok
-        </Button>
+        <TextButton onClick={submit} disabled={inputError.isError}>
+          OK
+        </TextButton>
       </DialogActions>
     </>
   );

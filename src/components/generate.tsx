@@ -1,4 +1,4 @@
-import { ButtonBase, InputBase, Snackbar, Stack, styled } from "@mui/material";
+import { InputBase, Snackbar, Stack, styled } from "@mui/material";
 import { FC, useCallback, useEffect, useState } from "react";
 import { similarChars } from "../core/constant";
 import {
@@ -6,6 +6,7 @@ import {
   GeneratePasswordArgs,
 } from "../core/generate_password";
 import { useSettings } from "../core/use_settings";
+import { FilledTonalButton } from "./Button";
 
 const Output = styled(InputBase)(({ theme }) => ({
   padding: "0 16px",
@@ -13,14 +14,6 @@ const Output = styled(InputBase)(({ theme }) => ({
   borderRadius: "4px",
   backgroundColor: theme.palette.surfaceVariant.main,
   fontFamily: "monospace",
-}));
-
-const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
-  padding: "0 24px",
-  height: "40px",
-  width: "100%",
-  borderRadius: "40px",
-  backgroundColor: theme.palette.secondaryContainer.main,
 }));
 
 type CopiedSnackbarState = {
@@ -72,8 +65,12 @@ export const Generate: FC = () => {
       <Output value={password} readOnly />
 
       <Stack direction="row" spacing={2}>
-        <FilledTonalButton onClick={generate}>Generate</FilledTonalButton>
-        <FilledTonalButton onClick={copy}>Copy</FilledTonalButton>
+        <FilledTonalButton fullWidth onClick={generate}>
+          Generate
+        </FilledTonalButton>
+        <FilledTonalButton fullWidth onClick={copy}>
+          Copy
+        </FilledTonalButton>
       </Stack>
 
       <Snackbar

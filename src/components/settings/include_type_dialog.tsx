@@ -1,5 +1,4 @@
 import {
-  Button,
   Checkbox,
   Dialog,
   DialogActions,
@@ -17,6 +16,7 @@ import {
   SettingIncludeTypes,
   SettingIncludeTypesKeys,
 } from "../../core/settings";
+import { TextButton } from "../Button";
 
 type FragmentProps = {
   onSubmit: (newValue: SettingIncludeTypes) => void;
@@ -66,7 +66,7 @@ export const IncludeTypeFragment: FC<FragmentProps> = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={submit}>Ok</Button>
+        <TextButton onClick={submit}>OK</TextButton>
       </DialogActions>
     </>
   );
