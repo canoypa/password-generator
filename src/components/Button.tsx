@@ -9,23 +9,23 @@ type ButtonProps = {
   fullWidth?: boolean;
 };
 
-const ButtonBase = styled(MuiButtonBase)<ButtonProps>(
-  ({ theme, ...props }) => ({
-    ...theme.typography.button,
-    textTransform: "none",
+const ButtonBase = styled(MuiButtonBase, {
+  shouldForwardProp: (props) => props !== "variant" && props !== "fullWidth",
+})<ButtonProps>(({ theme, ...props }) => ({
+  ...theme.typography.button,
+  textTransform: "none",
 
-    height: "40px",
-    minWidth: "48px",
-    borderRadius: "20px",
-    transitionDuration: "150ms",
-    transitionProperty: "color, background-color, box-shadow",
-    transitionTimingFunction: theme.transitions.easing.easeInOut,
+  height: "40px",
+  minWidth: "48px",
+  borderRadius: "20px",
+  transitionDuration: "150ms",
+  transitionProperty: "color, background-color, box-shadow",
+  transitionTimingFunction: theme.transitions.easing.easeInOut,
 
-    ...(props.fullWidth && {
-      width: "100%",
-    }),
-  })
-);
+  ...(props.fullWidth && {
+    width: "100%",
+  }),
+}));
 
 export const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
   padding: "0 24px",
