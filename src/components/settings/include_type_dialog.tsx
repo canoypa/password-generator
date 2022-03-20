@@ -75,7 +75,7 @@ export const IncludeTypeDialog: FC<DialogProps> = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={submit}>Ok</Button>
+        <Button onClick={submit}>DONE</Button>
       </DialogActions>
     </Dialog>
   );

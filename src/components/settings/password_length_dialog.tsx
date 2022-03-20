@@ -132,7 +132,7 @@ export const PasswordLengthDialog: FC<DialogProps> = ({
 
       <DialogActions>
         <Button onClick={submit} disabled={inputError.isError}>
-          Ok
+          DONE
         </Button>
       </DialogActions>
     </Dialog>
