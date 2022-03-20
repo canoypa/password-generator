@@ -1,10 +1,8 @@
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
-import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useMemo } from "react";
-import { RecoilRoot } from "recoil";
 import { createEmotionCache } from "../core/emotionCache";
 import { darkTheme, lightTheme } from "../core/theme";
 
@@ -25,32 +23,17 @@ function MyApp({
 
   return (
     <>
-      <DefaultSeo
-        openGraph={{
-          type: "website",
-          site_name: "Password Generator",
-          images: [
-            { url: "https://password.tepbyte.dev/icons/icon-512-maskable.png" },
-          ],
-        }}
-        twitter={{
-          cardType: "summary",
-        }}
-      />
-
       <Head>
         <meta name="theme-color" content={theme.palette.background.default} />
       </Head>
 
-      <RecoilRoot>
-        <CacheProvider value={emotionCache}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
+      <CacheProvider value={emotionCache}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
 
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </CacheProvider>
-      </RecoilRoot>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </CacheProvider>
     </>
   );
 }

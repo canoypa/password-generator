@@ -5,6 +5,7 @@
 
   "display": "standalone",
   "orientation": "portrait-primary",
+  "theme_color": "#1C1B1F",
   "background_color": "#1C1B1F",
 
   "icons": [
@@ -36,8 +37,26 @@
   "screenshots": [
     {
       "src": "screenshots/0.png",
-      "sizes": "512x512",
+      "sizes": "960x1280",
       "type": "image/png"
+    },
+    {
+      "src": "screenshots/1.png",
+      "sizes": "960x1280",
+      "type": "image/png"
+    },
+    {
+      "src": "screenshots/2.png",
+      "sizes": "960x1280",
+      "type": "image/png"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "url": "/?copy=true",
+      "name": "Copy Password",
+      "icons": [{ "src": "shortcuts/quick-copy-192.png", "sizes": "192x192" }]
     }
   ],
 
