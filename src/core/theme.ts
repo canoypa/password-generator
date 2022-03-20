@@ -62,9 +62,28 @@ const createTheme = (palette: PaletteOptions) => {
     components: {
       MuiListSubheader: {
         styleOverrides: {
-          root: {
-            backgroundColor: "transparent",
-          },
+          root: { backgroundColor: "transparent" },
+        },
+      },
+
+      MuiPaper: {
+        styleOverrides: {
+          root: { borderRadius: "28px" },
+        },
+      },
+      MuiDialogTitle: {
+        styleOverrides: {
+          root: { padding: "24px", paddingBottom: "16px" },
+        },
+      },
+      MuiDialogContent: {
+        styleOverrides: {
+          root: { padding: "24px", paddingTop: 0 },
+        },
+      },
+      MuiDialogActions: {
+        styleOverrides: {
+          root: { padding: "24px", paddingTop: 0 },
         },
       },
     },
