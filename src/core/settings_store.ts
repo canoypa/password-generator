@@ -1,52 +1,35 @@
-import localforage from "localforage";
-import { atom } from "recoil";
-import { CharType } from "./constant";
+import useSWR from "swr";
+import {
+  getSetting,
+  setSetting,
+  SettingIncludeTypes,
+  SettingPasswordLength,
+} from "./settings";
 
-export const PasswordLength = atom<number>({
-  key: "PasswordLength",
-  default: 16,
-  effects: [
-    ({ setSelf, onSet }) => {
-      const getInit = async () => {
-        const value = await localforage.getItem("settings.passwordLength");
-        if (typeof value === "number") setSelf(value);
-      };
-      getInit();
+export const usePasswordLengthSetting = () => {
+  const key = "passwordLength";
 
-      onSet((v) => {
-        localforage.setItem("settings.passwordLength", v);
-      });
-    },
-  ],
-});
+  const { data: state, mutate } = useSWR<SettingPasswordLength>(
+    typeof window !== "undefined" && key,
+    getSetting
+  );
 
-export const IncludeTypes = atom<CharType[]>({
-  key: "IncludeTypes",
-  default: [CharType.Digit, CharType.Lower, CharType.Upper],
-  effects: [
-    ({ setSelf, onSet }) => {
-      const isCharType = (v: unknown): v is CharType[] => {
-        if (
-          Array.isArray(v) &&
-          v.every((v) => Object.values(CharType).includes(v))
-        ) {
-          return true;
-        }
-        return false;
-      };
+  const setState = (newState: SettingPasswordLength) =>
+    mutate(setSetting(key, newState), false);
 
-      const getInit = async () => {
-        const value = await localforage.getItem("settings.includeTypes");
+  return [state, setState] as const;
+};
 
-        if (isCharType(value)) {
-          setSelf(value);
-        }
-      };
-      getInit();
+export const useIncludeTypesSetting = () => {
+  const key = "includeTypes";
 
-      onSet((v) => {
-        localforage.setItem("settings.includeTypes", v);
-      });
-    },
-  ],
-});
+  const { data: state, mutate } = useSWR<SettingIncludeTypes>(
+    typeof window !== "undefined" && key,
+    getSetting
+  );
+
+  const setState = (newState: SettingIncludeTypes) =>
+    mutate(setSetting(key, newState), false);
+
+  return [state, setState] as const;
+};

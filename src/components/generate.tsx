@@ -1,25 +1,20 @@
-import { ButtonBase, InputBase, Snackbar, Stack, styled } from "@mui/material";
-import { FC, useCallback, useEffect, useState } from "react";
+import { InputBase, Snackbar, Stack, styled } from "@mui/material";
+import { useRouter } from "next/router";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { similarChars } from "../core/constant";
 import {
   generatePassword,
   GeneratePasswordArgs,
 } from "../core/generate_password";
 import { useSettings } from "../core/use_settings";
+import { FilledTonalButton } from "./Button";
 
 const Output = styled(InputBase)(({ theme }) => ({
   padding: "0 16px",
   height: "56px",
   borderRadius: "4px",
   backgroundColor: theme.palette.surfaceVariant.main,
-}));
-
-const FilledTonalButton = styled(ButtonBase)(({ theme }) => ({
-  padding: "0 24px",
-  height: "40px",
-  width: "100%",
-  borderRadius: "40px",
-  backgroundColor: theme.palette.secondaryContainer.main,
+  fontFamily: "monospace",
 }));
 
 type CopiedSnackbarState = {
@@ -32,6 +27,9 @@ const DefaultCopiedSnackbarState: CopiedSnackbarState = {
 };
 
 export const Generate: FC = () => {
+  const router = useRouter();
+  const isCopied = useRef<boolean>(false);
+
   const settings = useSettings();
 
   const [password, setPassword] = useState<string>("");
@@ -41,6 +39,8 @@ export const Generate: FC = () => {
   );
 
   const generate = useCallback(() => {
+    if (!settings.length || !settings.includeType) return;
+
     const options: GeneratePasswordArgs = {
       length: settings.length,
       includeType: settings.includeType,
@@ -64,13 +64,31 @@ export const Generate: FC = () => {
   // re-generate password when first mount or update settings
   useEffect(() => generate(), [generate, settings]);
 
+  useEffect(() => {
+    if (!isCopied.current && router.query.copy && password) {
+      copy();
+      isCopied.current = true;
+      router.replace("/");
+    }
+  }, [password]);
+
   return (
     <Stack spacing={3}>
-      <Output value={password} readOnly />
+      <Output
+        value={password}
+        readOnly
+        inputProps={{
+          "aria-label": "Generated password",
+        }}
+      />
 
       <Stack direction="row" spacing={2}>
-        <FilledTonalButton onClick={generate}>Generate</FilledTonalButton>
-        <FilledTonalButton onClick={copy}>Copy</FilledTonalButton>
+        <FilledTonalButton fullWidth onClick={generate}>
+          Generate
+        </FilledTonalButton>
+        <FilledTonalButton fullWidth onClick={copy}>
+          Copy
+        </FilledTonalButton>
       </Stack>
 
       <Snackbar
