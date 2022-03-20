@@ -10,7 +10,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { CharTypeLabel } from "../../core/constant";
 import {
   SettingIncludeTypes,
@@ -18,17 +18,26 @@ import {
 } from "../../core/settings";
 import { TextButton } from "../Button";
 
-type FragmentProps = {
+type DialogProps = {
+  open: boolean;
   onSubmit: (newValue: SettingIncludeTypes) => void;
   onClose: () => void;
   value: SettingIncludeTypes;
 };
-export const IncludeTypeFragment: FC<FragmentProps> = ({
+export const IncludeTypeDialog: FC<DialogProps> = ({
+  open,
   onSubmit,
   onClose,
   value,
 }) => {
   const [currentValue, setCurrentValue] = useState<SettingIncludeTypes>(value);
+
+  // reset state on open
+  useEffect(() => {
+    if (open) {
+      setCurrentValue(value);
+    }
+  }, [open, value]);
 
   const submit = () => {
     onSubmit(currentValue);
@@ -36,7 +45,7 @@ export const IncludeTypeFragment: FC<FragmentProps> = ({
   };
 
   return (
-    <>
+    <Dialog open={open} onClose={submit} maxWidth="xs" fullWidth>
       <DialogTitle>Include Characters</DialogTitle>
 
       <DialogContent>
@@ -66,28 +75,8 @@ export const IncludeTypeFragment: FC<FragmentProps> = ({
       </DialogContent>
 
       <DialogActions>
-        <TextButton onClick={submit}>OK</TextButton>
+        <TextButton onClick={submit}>Done</TextButton>
       </DialogActions>
-    </>
-  );
-};
-
-type DialogProps = {
-  open: boolean;
-} & FragmentProps;
-export const IncludeTypeDialog: FC<DialogProps> = ({
-  open,
-  onSubmit,
-  onClose,
-  value,
-}) => {
-  return (
-    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <IncludeTypeFragment
-        onClose={onClose}
-        onSubmit={onSubmit}
-        value={value}
-      />
     </Dialog>
   );
 };
