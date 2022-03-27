@@ -13,7 +13,11 @@ describe("passwordGenerator()", () => {
 
     const opt: GeneratePasswordArgs = {
       length: 8,
-      includeType: [CharType.Digit, CharType.Lower, CharType.Upper],
+      includeType: {
+        [CharType.Digit]: true,
+        [CharType.Lower]: true,
+        [CharType.Upper]: true,
+      },
       excludeChars: similarChars,
     };
 
