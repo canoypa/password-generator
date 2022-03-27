@@ -62,7 +62,7 @@ export const IncludeTypeDialog: FC<DialogProps> = ({
                   setCurrentValue({ ...currentValue, [type]: !value })
                 }
               >
-                <ListItemButton>
+                <ListItemButton dense>
                   <ListItemIcon>
                     <Checkbox
                       edge="start"
