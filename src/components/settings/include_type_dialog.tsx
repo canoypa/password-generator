@@ -55,14 +55,13 @@ export const IncludeTypeDialog: FC<DialogProps> = ({
             const primary = CharTypeLabel[type];
 
             return (
-              <ListItem
-                key={type}
-                disablePadding
-                onClick={() =>
-                  setCurrentValue({ ...currentValue, [type]: !value })
-                }
-              >
-                <ListItemButton dense>
+              <ListItem key={type} disablePadding>
+                <ListItemButton
+                  dense
+                  onClick={() =>
+                    setCurrentValue({ ...currentValue, [type]: !value })
+                  }
+                >
                   <ListItemIcon>
                     <Checkbox
                       edge="start"
