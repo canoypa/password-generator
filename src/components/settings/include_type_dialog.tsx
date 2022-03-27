@@ -7,7 +7,7 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemSecondaryAction,
+  ListItemIcon,
   ListItemText,
 } from "@mui/material";
 import { FC, useEffect, useState } from "react";
@@ -63,10 +63,10 @@ export const IncludeTypeDialog: FC<DialogProps> = ({
                 }
               >
                 <ListItemButton>
-                  <ListItemText primary={primary} />
-                  <ListItemSecondaryAction>
+                  <ListItemIcon>
                     <Checkbox checked={value} />
-                  </ListItemSecondaryAction>
+                  </ListItemIcon>
+                  <ListItemText primary={primary} />
                 </ListItemButton>
               </ListItem>
             );
