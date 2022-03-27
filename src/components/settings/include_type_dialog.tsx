@@ -64,7 +64,7 @@ export const IncludeTypeDialog: FC<DialogProps> = ({
               >
                 <ListItemButton>
                   <ListItemIcon>
-                    <Checkbox checked={value} />
+                    <Checkbox edge="start" checked={value} />
                   </ListItemIcon>
                   <ListItemText primary={primary} />
                 </ListItemButton>
