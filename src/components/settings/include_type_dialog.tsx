@@ -64,26 +64,21 @@ export const IncludeTypeDialog: FC<DialogProps> = ({
 
       <DialogContent>
         <List>
-          {SettingIncludeTypesKeys.map((type) => {
-            const value = currentValue[type];
-            const primary = CharTypeLabel[type];
-
-            return (
-              <ListItem key={type} disablePadding>
-                <ListItemButton dense onClick={toggle(type)}>
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      disableRipple
-                      tabIndex={-1}
-                      checked={value}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary={primary} />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
+          {SettingIncludeTypesKeys.map((type) => (
+            <ListItem key={type} disablePadding>
+              <ListItemButton dense onClick={toggle(type)}>
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    disableRipple
+                    tabIndex={-1}
+                    checked={currentValue[type]}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={CharTypeLabel[type]} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </DialogContent>
 
