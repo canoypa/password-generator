@@ -7,11 +7,11 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemSecondaryAction,
+  ListItemIcon,
   ListItemText,
 } from "@mui/material";
 import { FC, useEffect, useState } from "react";
-import { CharTypeLabel } from "../../core/constant";
+import { CharType, CharTypeLabel } from "../../core/constant";
 import {
   SettingIncludeTypes,
   SettingIncludeTypesKeys,
@@ -44,33 +44,41 @@ export const IncludeTypeDialog: FC<DialogProps> = ({
     onClose();
   };
 
+  const toggle = (type: CharType) => {
+    return () => {
+      // if true is only one, noop
+      if (
+        currentValue[type] &&
+        Object.values(currentValue).filter(Boolean).length === 1
+      ) {
+        return;
+      }
+
+      setCurrentValue({ ...currentValue, [type]: !currentValue[type] });
+    };
+  };
+
   return (
     <Dialog open={open} onClose={submit} maxWidth="xs" fullWidth>
       <DialogTitle>Include Characters</DialogTitle>
 
       <DialogContent>
         <List>
-          {SettingIncludeTypesKeys.map((type) => {
-            const value = currentValue[type];
-            const primary = CharTypeLabel[type];
-
-            return (
-              <ListItem
-                key={type}
-                disablePadding
-                onClick={() =>
-                  setCurrentValue({ ...currentValue, [type]: !value })
-                }
-              >
-                <ListItemButton>
-                  <ListItemText primary={primary} />
-                  <ListItemSecondaryAction>
-                    <Checkbox checked={value} />
-                  </ListItemSecondaryAction>
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
+          {SettingIncludeTypesKeys.map((type) => (
+            <ListItem key={type} disablePadding>
+              <ListItemButton dense onClick={toggle(type)}>
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    disableRipple
+                    tabIndex={-1}
+                    checked={currentValue[type]}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={CharTypeLabel[type]} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </DialogContent>
 
