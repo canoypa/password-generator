@@ -20,17 +20,17 @@
     "idb": "^7.0.1",
     "next": "^12.1.2",
     "next-pwa": "^5.4.4",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "swr": "^1.2.2"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.19",
-    "@types/react": "17.0.39",
-    "eslint": "8.9.0",
-    "eslint-config-next": "12.1.0",
+    "@types/react": "^17.0.39",
+    "eslint": "^8.9.0",
+    "eslint-config-next": "^12.1.0",
     "jest": "^27.5.1",
-    "typescript": "4.5.5"
+    "typescript": "^4.5.5"
   }
 }
