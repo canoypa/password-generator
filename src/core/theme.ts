@@ -1,7 +1,9 @@
+import { hexFromArgb, Scheme } from "@material/material-color-utilities";
 import {
   createTheme as createMuiTheme,
   PaletteColor,
   PaletteColorOptions,
+  PaletteMode,
   PaletteOptions,
   TypeBackground,
 } from "@mui/material";
@@ -69,47 +71,34 @@ declare module "@mui/material/styles" {
   }
 }
 
-const LightPalette: PaletteOptions = {
-  mode: "light",
+const SEED_COLOR = 0x6750a4;
 
-  primary: {
-    main: "#6750A4",
-  },
-  secondaryContainer: {
-    main: "#E8DEF8",
-  },
-  surfaceVariant: {
-    main: "#E7E0EC",
-  },
+const createPalette = (mode: PaletteMode): PaletteOptions => {
+  const scheme =
+    mode === "light" ? Scheme.light(SEED_COLOR) : Scheme.dark(SEED_COLOR);
 
-  background: {
-    default: "#FFFBFE",
-    paper: "#FFFBFE",
-  },
+  const options: PaletteOptions = {
+    mode: mode,
+
+    ...Object.entries(scheme.toJSON()).reduce<any>((p, c) => {
+      const [key, value] = c;
+
+      if (key === "background") {
+        p[key] = { default: hexFromArgb(value), paper: hexFromArgb(value) };
+        return p;
+      }
+
+      p[key] = { main: hexFromArgb(value) };
+      return p;
+    }, {}),
+  };
+
+  return options;
 };
 
-const DarkPalette: PaletteOptions = {
-  mode: "dark",
-
-  primary: {
-    main: "#D0BCFF",
-  },
-  secondaryContainer: {
-    main: "#4A4458",
-  },
-  surfaceVariant: {
-    main: "#49454F",
-  },
-
-  background: {
-    default: "#1C1B1F",
-    paper: "#1C1B1F",
-  },
-};
-
-const createTheme = (palette: PaletteOptions) => {
+const createTheme = (mode: PaletteMode) => {
   return createMuiTheme({
-    palette: palette,
+    palette: createPalette(mode),
 
     components: {
       MuiListSubheader: {
@@ -142,5 +131,5 @@ const createTheme = (palette: PaletteOptions) => {
   });
 };
 
-export const lightTheme = createTheme(LightPalette);
-export const darkTheme = createTheme(DarkPalette);
+export const lightTheme = createTheme("light");
+export const darkTheme = createTheme("dark");
