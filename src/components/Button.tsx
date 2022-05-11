@@ -19,7 +19,7 @@ const ButtonBase = styled(MuiButtonBase, {
   minWidth: "48px",
   borderRadius: "20px",
   transitionDuration: "150ms",
-  transitionProperty: "color, background-color, box-shadow",
+  transitionProperty: "box-shadow",
   transitionTimingFunction: theme.transitions.easing.easeInOut,
 
   ...(props.fullWidth && {
