@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useMemo } from "react";
 import { createEmotionCache } from "../core/emotionCache";
-import { darkTheme, lightTheme } from "../core/theme";
+import { createTheme } from "../core/theme";
 
 type MyAppProps = AppProps & {
   emotionCache?: EmotionCache;
@@ -16,10 +16,9 @@ function MyApp({
   emotionCache = createEmotionCache(),
 }: MyAppProps) {
   const isLightScheme = useMediaQuery("(prefers-color-scheme:light)");
-  const theme = useMemo(
-    () => (isLightScheme ? lightTheme : darkTheme),
-    [isLightScheme]
-  );
+  const mode = isLightScheme ? "light" : "dark";
+
+  const theme = useMemo(() => createTheme(mode), [mode]);
 
   return (
     <>
