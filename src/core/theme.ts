@@ -121,7 +121,7 @@ const createPalette = (mode: PaletteMode): PaletteOptions => {
   return options;
 };
 
-const createTheme = (mode: PaletteMode) => {
+export const createTheme = (mode: PaletteMode) => {
   return createMuiTheme({
     palette: createPalette(mode),
 
@@ -155,6 +155,3 @@ const createTheme = (mode: PaletteMode) => {
     },
   });
 };
-
-export const lightTheme = createTheme("light");
-export const darkTheme = createTheme("dark");
