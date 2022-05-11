@@ -8,6 +8,35 @@ import {
   TypeBackground,
 } from "@mui/material";
 
+type M3ColorSchemeKeys =
+  | "primary"
+  | "primaryContainer"
+  | "onPrimary"
+  | "onPrimaryContainer"
+  | "secondary"
+  | "secondaryContainer"
+  | "onSecondary"
+  | "onSecondaryContainer"
+  | "tertiary"
+  | "tertiaryContainer"
+  | "onTertiary"
+  | "onTertiaryContainer"
+  | "error"
+  | "errorContainer"
+  | "onError"
+  | "onErrorContainer"
+  | "background"
+  | "onBackground"
+  | "surface"
+  | "onSurface"
+  | "surfaceVariant"
+  | "onSurfaceVariant"
+  | "outline"
+  | "shadow"
+  | "inverseSurface"
+  | "inverseOnSurface"
+  | "inversePrimary";
+
 // Augmentation MUI theme with Material 3
 declare module "@mui/material/styles" {
   interface PaletteOptions {
@@ -77,21 +106,17 @@ const createPalette = (mode: PaletteMode): PaletteOptions => {
   const scheme =
     mode === "light" ? Scheme.light(SEED_COLOR) : Scheme.dark(SEED_COLOR);
 
-  const options: PaletteOptions = {
-    mode: mode,
+  const options: PaletteOptions = { mode: mode };
+  Object.entries(scheme.toJSON()).forEach(([k, v]) => {
+    const key = k as M3ColorSchemeKeys;
+    const color = hexFromArgb(v);
 
-    ...Object.entries(scheme.toJSON()).reduce<any>((p, c) => {
-      const [key, value] = c;
-
-      if (key === "background") {
-        p[key] = { default: hexFromArgb(value), paper: hexFromArgb(value) };
-        return p;
-      }
-
-      p[key] = { main: hexFromArgb(value) };
-      return p;
-    }, {}),
-  };
+    if (key === "background") {
+      options[key] = { default: color, paper: color };
+    } else {
+      options[key] = { main: color };
+    }
+  });
 
   return options;
 };
