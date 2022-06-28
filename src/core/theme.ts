@@ -1,6 +1,8 @@
 import { hexFromArgb, Scheme } from "@material/material-color-utilities";
 import {
+  alpha,
   createTheme as createMuiTheme,
+  darken,
   PaletteColor,
   PaletteColorOptions,
   PaletteMode,
@@ -100,6 +102,13 @@ declare module "@mui/material/styles" {
   }
 }
 
+// Custom Button variants
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {
+    filledTonal: true;
+  }
+}
+
 const SEED_COLOR = 0x6750a4;
 
 const createPalette = (mode: PaletteMode): PaletteOptions => {
@@ -151,6 +160,48 @@ export const createTheme = (mode: PaletteMode) => {
         styleOverrides: {
           root: { padding: "24px", paddingTop: 0 },
         },
+      },
+
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            height: "40px",
+            minWidth: "48px",
+            borderRadius: "20px",
+            textTransform: "none",
+          },
+        },
+        variants: [
+          {
+            props: { variant: "filledTonal" },
+            style: ({ theme }) => ({
+              padding: "0 24px",
+              backgroundColor: theme.palette.secondaryContainer.main,
+
+              "&:hover": {
+                backgroundColor: darken(
+                  theme.palette.secondaryContainer.main,
+                  theme.palette.action.hoverOpacity
+                ),
+                boxShadow: theme.shadows[1],
+              },
+            }),
+          },
+          {
+            props: { variant: "text" },
+            style: ({ theme }) => ({
+              padding: "0 12px",
+              color: theme.palette.primary.main,
+
+              "&:hover": {
+                backgroundColor: alpha(
+                  theme.palette.primary.main,
+                  theme.palette.action.hoverOpacity
+                ),
+              },
+            }),
+          },
+        ],
       },
     },
   });

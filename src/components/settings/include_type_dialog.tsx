@@ -1,4 +1,5 @@
 import {
+  Button,
   Checkbox,
   Dialog,
   DialogActions,
@@ -16,7 +17,6 @@ import {
   SettingIncludeTypes,
   SettingIncludeTypesKeys,
 } from "../../core/settings";
-import { TextButton } from "../Button";
 
 type DialogProps = {
   open: boolean;
@@ -83,7 +83,9 @@ export const IncludeTypeDialog: FC<DialogProps> = ({
       </DialogContent>
 
       <DialogActions>
-        <TextButton onClick={submit}>Done</TextButton>
+        <Button variant="text" onClick={submit}>
+          Done
+        </Button>
       </DialogActions>
     </Dialog>
   );

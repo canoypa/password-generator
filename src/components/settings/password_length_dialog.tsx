@@ -1,4 +1,5 @@
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -16,7 +17,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { TextButton } from "../Button";
 
 type InputError =
   | {
@@ -131,9 +131,9 @@ export const PasswordLengthDialog: FC<DialogProps> = ({
       </DialogContent>
 
       <DialogActions>
-        <TextButton onClick={submit} disabled={inputError.isError}>
+        <Button variant="text" onClick={submit} disabled={inputError.isError}>
           Done
-        </TextButton>
+        </Button>
       </DialogActions>
     </Dialog>
   );
