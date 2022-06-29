@@ -5,6 +5,7 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import { FC, useState } from "react";
 import { CharTypeLabel } from "../core/constant";
 import { SettingIncludeTypesKeys } from "../core/settings";
@@ -12,8 +13,13 @@ import {
   useIncludeTypesSetting,
   usePasswordLengthSetting,
 } from "../core/settings_store";
-import { IncludeTypeDialog } from "./settings/include_type_dialog";
-import { PasswordLengthDialog } from "./settings/password_length_dialog";
+
+const IncludeTypeDialog = dynamic(
+  () => import("./settings/include_type_dialog")
+);
+const PasswordLengthDialog = dynamic(
+  () => import("./settings/password_length_dialog")
+);
 
 export const Settings: FC = () => {
   const [length, setLength] = usePasswordLengthSetting();
