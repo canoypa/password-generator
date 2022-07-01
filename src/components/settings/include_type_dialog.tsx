@@ -24,7 +24,7 @@ type DialogProps = {
   onClose: () => void;
   value: SettingIncludeTypes;
 };
-export const IncludeTypeDialog: FC<DialogProps> = ({
+const IncludeTypeDialog: FC<DialogProps> = ({
   open,
   onSubmit,
   onClose,
@@ -88,3 +88,4 @@ export const IncludeTypeDialog: FC<DialogProps> = ({
     </Dialog>
   );
 };
+export default IncludeTypeDialog;
