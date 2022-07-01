@@ -37,7 +37,7 @@ type DialogProps = {
   onClose: () => void;
   value: number;
 };
-export const PasswordLengthDialog: FC<DialogProps> = ({
+const PasswordLengthDialog: FC<DialogProps> = ({
   open,
   onSubmit,
   onClose,
@@ -138,3 +138,4 @@ export const PasswordLengthDialog: FC<DialogProps> = ({
     </Dialog>
   );
 };
+export default PasswordLengthDialog;
