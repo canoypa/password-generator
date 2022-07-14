@@ -105,7 +105,7 @@ const PasswordLengthDialog: FC<DialogProps> = ({
               min={2}
               max={5}
               value={Math.log(currentValue) / Math.log(2)}
-              onChange={onSliderChange}
+              onChangeCommitted={onSliderChange}
               step={null}
               marks={[
                 { value: 2, label: "4" },
