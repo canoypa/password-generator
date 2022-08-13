@@ -99,8 +99,8 @@ const PasswordLengthDialog: FC<DialogProps> = ({
       <DialogTitle>Password Length</DialogTitle>
 
       <DialogContent>
-        <Stack spacing={2}>
-          <Stack direction="row" spacing={3} pt={2}>
+        <Stack rowGap={2}>
+          <Stack direction="row" columnGap={3} pt={2}>
             <Slider
               min={2}
               max={5}
