@@ -81,7 +81,7 @@ export const Generate: FC = () => {
         }}
       />
 
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" columnGap={2}>
         <Button variant="filledTonal" fullWidth onClick={generate}>
           Generate
         </Button>
