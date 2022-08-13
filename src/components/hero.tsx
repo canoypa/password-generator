@@ -8,7 +8,7 @@ export const Hero: FC = () => {
       direction={{ xs: "column", sm: "row" }}
       justifyContent="center"
       alignItems="center"
-      spacing={2}
+      gap={2}
     >
       <Logo sx={{ fontSize: 64 }} />
       <Typography variant="h5">Password Generator</Typography>
