@@ -26,7 +26,7 @@ const Home: NextPage = () => {
         />
       </Head>
 
-      <Stack mx="auto" py={3} maxWidth="sm" spacing={8}>
+      <Stack mx="auto" py={3} maxWidth="sm" rowGap={8}>
         <Hero />
 
         <Box px={3}>

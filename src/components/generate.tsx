@@ -72,7 +72,7 @@ export const Generate: FC = () => {
   }, [password]);
 
   return (
-    <Stack spacing={3}>
+    <Stack rowGap={3}>
       <Output
         value={password}
         readOnly

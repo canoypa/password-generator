@@ -5,15 +5,28 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import { FC, useState } from "react";
 import { CharTypeLabel } from "../core/constant";
-import { SettingIncludeTypesKeys } from "../core/settings";
+import { SettingIncludeTypes, SettingIncludeTypesKeys } from "../core/settings";
 import {
   useIncludeTypesSetting,
   usePasswordLengthSetting,
 } from "../core/settings_store";
-import { IncludeTypeDialog } from "./settings/include_type_dialog";
-import { PasswordLengthDialog } from "./settings/password_length_dialog";
+
+const IncludeTypeDialog = dynamic(
+  () => import("./settings/include_type_dialog")
+);
+const PasswordLengthDialog = dynamic(
+  () => import("./settings/password_length_dialog")
+);
+
+const getIncludeTypesLabel = (types: SettingIncludeTypes): string => {
+  return SettingIncludeTypesKeys.reduce<string[]>((pre, type) => {
+    if (types[type]) return [...pre, CharTypeLabel[type]];
+    return pre;
+  }, []).join(", ");
+};
 
 export const Settings: FC = () => {
   const [length, setLength] = usePasswordLengthSetting();
@@ -38,14 +51,7 @@ export const Settings: FC = () => {
           <ListItemButton onClick={() => setTypesOpen(true)}>
             <ListItemText
               primary="Include Characters"
-              secondary={
-                types
-                  ? SettingIncludeTypesKeys.reduce<string[]>((pre, type) => {
-                      if (types[type]) return [...pre, CharTypeLabel[type]];
-                      return pre;
-                    }, []).join(", ")
-                  : "..."
-              }
+              secondary={types ? getIncludeTypesLabel(types) : "..."}
             />
           </ListItemButton>
         </ListItem>
