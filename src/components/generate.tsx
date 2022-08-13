@@ -73,7 +73,7 @@ export const Generate: FC = () => {
   }, [password]);
 
   return (
-    <Stack spacing={3}>
+    <Stack rowGap={3}>
       <Output
         value={password}
         readOnly
@@ -82,7 +82,7 @@ export const Generate: FC = () => {
         }}
       />
 
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" columnGap={2}>
         <FilledTonalButton fullWidth onClick={generate}>
           Generate
         </FilledTonalButton>
