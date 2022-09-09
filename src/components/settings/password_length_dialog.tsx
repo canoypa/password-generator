@@ -69,15 +69,18 @@ const PasswordLengthDialog: FC<DialogProps> = ({
     if (!Number.isNaN(newValue)) setCurrentValue(newValue);
   }, []);
 
-  const onSliderChange = useCallback((_, _newValue: number | number[]) => {
-    if (typeof _newValue !== "number")
-      throw new Error("newValue is not a number");
+  const onSliderChange = useCallback(
+    (_: Event, _newValue: number | number[]) => {
+      if (typeof _newValue !== "number")
+        throw new Error("newValue is not a number");
 
-    const newValue = 2 ** _newValue;
+      const newValue = 2 ** _newValue;
 
-    setInputValue(newValue.toString());
-    onChange(newValue);
-  }, []);
+      setInputValue(newValue.toString());
+      onChange(newValue);
+    },
+    []
+  );
 
   const onInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
