@@ -1,16 +1,15 @@
 import { CharType, similarChars } from "./constant";
 import { generatePassword, GeneratePasswordArgs } from "./generate_password";
-import * as getRandom from "./get_random";
+import { getRandom } from "./get_random";
+
+// crypto を使用しているためモック
+jest.mock("./get_random");
+(getRandom as jest.Mock).mockImplementation((l) => {
+  return [...Array(l)].map(Math.random);
+});
 
 describe("passwordGenerator()", () => {
   test("Basic", () => {
-    const mock = jest
-      .spyOn(getRandom, "getRandom")
-      .mockImplementation((length) => {
-        const randomValues = [...Array(length)].map(() => Math.random());
-        return randomValues;
-      });
-
     const opt: GeneratePasswordArgs = {
       length: 8,
       includeType: {
@@ -29,7 +28,5 @@ describe("passwordGenerator()", () => {
     expect(/[A-Z]/.test(password)).toBe(true);
     expect(/^[a-zA-Z]/.test(password)).toBe(true);
     expect(new RegExp(`[${similarChars}]`).test(password)).toBe(false);
-
-    mock.mockRestore();
   });
 });
