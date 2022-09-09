@@ -1,4 +1,4 @@
-import { InputBase, Snackbar, Stack, styled } from "@mui/material";
+import { Button, InputBase, Snackbar, Stack, styled } from "@mui/material";
 import { useRouter } from "next/router";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { similarChars } from "../core/constant";
@@ -7,7 +7,6 @@ import {
   GeneratePasswordArgs,
 } from "../core/generate_password";
 import { useSettings } from "../core/use_settings";
-import { FilledTonalButton } from "./Button";
 
 const Output = styled(InputBase)(({ theme }) => ({
   padding: "0 16px",
@@ -83,12 +82,12 @@ export const Generate: FC = () => {
       />
 
       <Stack direction="row" columnGap={2}>
-        <FilledTonalButton fullWidth onClick={generate}>
+        <Button variant="filledTonal" fullWidth onClick={generate}>
           Generate
-        </FilledTonalButton>
-        <FilledTonalButton fullWidth onClick={copy}>
+        </Button>
+        <Button variant="filledTonal" fullWidth onClick={copy}>
           Copy
-        </FilledTonalButton>
+        </Button>
       </Stack>
 
       <Snackbar
