@@ -9,10 +9,8 @@ type LinkProps = {
 };
 export const Link: FC<LinkProps> = ({ href, target, children }) => {
   return (
-    <NextLink href={href} passHref>
-      <MuiLink target={target} underline="hover">
-        {children}
-      </MuiLink>
-    </NextLink>
+    <MuiLink component={NextLink} href={href} target={target} underline="hover">
+      {children}
+    </MuiLink>
   );
 };
