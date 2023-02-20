@@ -1,12 +1,13 @@
+import { useAtomValue } from "jotai/react";
 import { useMemo } from "react";
 import {
-  useIncludeTypesSetting,
-  usePasswordLengthSetting,
+  includeTypesSettingAtom,
+  passwordLengthSettingAtom,
 } from "./settings_store";
 
 export const useSettings = () => {
-  const [length] = usePasswordLengthSetting();
-  const [includeType] = useIncludeTypesSetting();
+  const length = useAtomValue(passwordLengthSettingAtom);
+  const includeType = useAtomValue(includeTypesSettingAtom);
 
   const settings = useMemo(
     () => ({

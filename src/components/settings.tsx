@@ -5,13 +5,14 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
+import { useAtom } from "jotai/react";
 import dynamic from "next/dynamic";
 import { FC, useState } from "react";
 import { CharTypeLabel } from "../core/constant";
 import { SettingIncludeTypes, SettingIncludeTypesKeys } from "../core/settings";
 import {
-  useIncludeTypesSetting,
-  usePasswordLengthSetting,
+  includeTypesSettingAtom,
+  passwordLengthSettingAtom,
 } from "../core/settings_store";
 
 const IncludeTypeDialog = dynamic(
@@ -29,8 +30,8 @@ const getIncludeTypesLabel = (types: SettingIncludeTypes): string => {
 };
 
 export const Settings: FC = () => {
-  const [length, setLength] = usePasswordLengthSetting();
-  const [types, setTypes] = useIncludeTypesSetting();
+  const [length, setLength] = useAtom(passwordLengthSettingAtom);
+  const [types, setTypes] = useAtom(includeTypesSettingAtom);
 
   const [lengthOpen, setLengthOpen] = useState(false);
   const [typesOpen, setTypesOpen] = useState(false);
