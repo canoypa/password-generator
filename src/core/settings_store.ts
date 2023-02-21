@@ -1,35 +1,22 @@
-import useSWR from "swr";
-import {
-  getSetting,
-  setSetting,
-  SettingIncludeTypes,
-  SettingPasswordLength,
-} from "./settings";
+import { atom } from "jotai";
+import { getSetting, setSetting, SettingKeys, Settings } from "./settings";
 
-export const usePasswordLengthSetting = () => {
-  const key = "passwordLength";
+const settingAtom = <K extends SettingKeys, V extends Settings[K]>(key: K) => {
+  const baseAtom = atom<V | undefined>(undefined);
+  baseAtom.onMount = (setAtom) => {
+    getSetting(key).then((v) => setAtom(v as V));
+  };
 
-  const { data: state, mutate } = useSWR<SettingPasswordLength>(
-    typeof window !== "undefined" && key,
-    getSetting
+  const anAtom = atom(
+    (get) => get(baseAtom),
+    (_, set, newValue: V) => {
+      set(baseAtom, newValue);
+      setSetting(key, newValue);
+    }
   );
 
-  const setState = (newState: SettingPasswordLength) =>
-    mutate(setSetting(key, newState), false);
-
-  return [state, setState] as const;
+  return anAtom;
 };
 
-export const useIncludeTypesSetting = () => {
-  const key = "includeTypes";
-
-  const { data: state, mutate } = useSWR<SettingIncludeTypes>(
-    typeof window !== "undefined" && key,
-    getSetting
-  );
-
-  const setState = (newState: SettingIncludeTypes) =>
-    mutate(setSetting(key, newState), false);
-
-  return [state, setState] as const;
-};
+export const passwordLengthSettingAtom = settingAtom("passwordLength");
+export const includeTypesSettingAtom = settingAtom("includeTypes");

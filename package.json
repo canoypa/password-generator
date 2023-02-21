@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.4",
     "idb": "^7.0.1",
+    "jotai": "^2.0.2",
     "next": "^13.1.0",
     "next-pwa": "^5.4.7",
     "react": "^18.2.0",
