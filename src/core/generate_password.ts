@@ -7,34 +7,34 @@ import {
   SettingPasswordLength,
 } from "./settings";
 
-const getAvailableChars = (
-  enableChars: Record<CharType, string>,
-  includeTypes: SettingIncludeTypes
-): string => {
-  let chars = "";
-
-  for (const type of SettingIncludeTypesKeys) {
-    if (includeTypes[type]) chars += enableChars[type];
-  }
-
-  return chars;
+const charMap: Record<CharType, string> = {
+  [CharType.Digit]: digits,
+  [CharType.Lower]: lowers,
+  [CharType.Upper]: uppers,
 };
 
 type CharOptions = {
   includeType: SettingIncludeTypes;
   excludeChars?: string;
 };
-const picker = (defaultOptions: CharOptions) => {
-  const excludeChars = defaultOptions.excludeChars ?? "";
-  const enableChars: Record<CharType, string> = {
-    [CharType.Digit]: digits.replaceAll(excludeChars, ""),
-    [CharType.Lower]: lowers.replaceAll(excludeChars, ""),
-    [CharType.Upper]: uppers.replaceAll(excludeChars, ""),
-  };
 
+const getAvailableChars = (options: CharOptions): string => {
+  let chars = "";
+
+  for (const type of SettingIncludeTypesKeys) {
+    if (options.includeType[type]) {
+      chars += options.excludeChars
+        ? charMap[type].replaceAll(options.excludeChars, "")
+        : charMap[type];
+    }
+  }
+
+  return chars;
+};
+
+const picker = (defaultOptions: CharOptions) => {
   const pick = (rand: number, options?: CharOptions) => {
-    const includeType = options?.includeType ?? defaultOptions.includeType;
-    const availableChars = getAvailableChars(enableChars, includeType);
+    const availableChars = getAvailableChars(options ?? defaultOptions);
     return availableChars[Math.round((availableChars.length - 1) * rand)];
   };
 
