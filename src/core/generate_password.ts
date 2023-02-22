@@ -12,12 +12,10 @@ const pick = (rand: number, chars: string): string => {
 };
 
 const getEnableChars = (excludeChars: string): Record<CharType, string> => {
-  const excludeRegexp = new RegExp(`[${excludeChars}]`, "g");
-
   const chars: Record<CharType, string> = {
-    [CharType.Digit]: digits.replace(excludeRegexp, ""),
-    [CharType.Lower]: lowers.replace(excludeRegexp, ""),
-    [CharType.Upper]: uppers.replace(excludeRegexp, ""),
+    [CharType.Digit]: digits.replaceAll(excludeChars, ""),
+    [CharType.Lower]: lowers.replaceAll(excludeChars, ""),
+    [CharType.Upper]: uppers.replaceAll(excludeChars, ""),
   };
 
   return chars;
