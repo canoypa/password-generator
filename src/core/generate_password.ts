@@ -7,20 +7,6 @@ import {
   SettingPasswordLength,
 } from "./settings";
 
-const pick = (rand: number, chars: string): string => {
-  return chars[Math.round((chars.length - 1) * rand)];
-};
-
-const getEnableChars = (excludeChars: string): Record<CharType, string> => {
-  const chars: Record<CharType, string> = {
-    [CharType.Digit]: digits.replaceAll(excludeChars, ""),
-    [CharType.Lower]: lowers.replaceAll(excludeChars, ""),
-    [CharType.Upper]: uppers.replaceAll(excludeChars, ""),
-  };
-
-  return chars;
-};
-
 const getAvailableChars = (
   enableChars: Record<CharType, string>,
   includeTypes: SettingIncludeTypes
@@ -34,6 +20,27 @@ const getAvailableChars = (
   return chars;
 };
 
+type CharOptions = {
+  includeType: SettingIncludeTypes;
+  excludeChars?: string;
+};
+const picker = (defaultOptions: CharOptions) => {
+  const excludeChars = defaultOptions.excludeChars ?? "";
+  const enableChars: Record<CharType, string> = {
+    [CharType.Digit]: digits.replaceAll(excludeChars, ""),
+    [CharType.Lower]: lowers.replaceAll(excludeChars, ""),
+    [CharType.Upper]: uppers.replaceAll(excludeChars, ""),
+  };
+
+  const pick = (rand: number, options?: CharOptions) => {
+    const includeType = options?.includeType ?? defaultOptions.includeType;
+    const availableChars = getAvailableChars(enableChars, includeType);
+    return availableChars[Math.round((availableChars.length - 1) * rand)];
+  };
+
+  return pick;
+};
+
 export type GeneratePasswordArgs = {
   length: SettingPasswordLength;
   includeType: SettingIncludeTypes;
@@ -41,48 +48,58 @@ export type GeneratePasswordArgs = {
   excludeChars?: string;
 };
 export const generatePassword = (options: GeneratePasswordArgs) => {
+  const pick = picker(options);
+
   const charRandom = getRandom(options.length);
   const posRandom = getRandom(options.length);
 
   let passwordChars = [];
   let shift = 0;
 
-  const enableChars = getEnableChars(options.excludeChars || "");
-  const availableChars = getAvailableChars(enableChars, options.includeType);
-
   const isIncludeLetter =
     options.includeType[CharType.Lower] || options.includeType[CharType.Upper];
 
   if (isIncludeLetter) {
-    const lowers = options.includeType[CharType.Lower]
-      ? enableChars[CharType.Lower]
-      : "";
-    const uppers = options.includeType[CharType.Upper]
-      ? enableChars[CharType.Upper]
-      : "";
-
-    const chars = lowers + uppers;
-
-    passwordChars[shift] = pick(charRandom[shift], chars);
+    const includeType: SettingIncludeTypes = {
+      [CharType.Digit]: false,
+      [CharType.Lower]: options.includeType[CharType.Lower],
+      [CharType.Upper]: options.includeType[CharType.Upper],
+    };
+    passwordChars[shift] = pick(charRandom[shift], { includeType });
 
     shift += 1;
   }
 
   if (options.includeType[CharType.Digit]) {
-    passwordChars[shift] = pick(charRandom[shift], enableChars.digit);
+    const includeType: SettingIncludeTypes = {
+      [CharType.Digit]: true,
+      [CharType.Lower]: false,
+      [CharType.Upper]: false,
+    };
+    passwordChars[shift] = pick(charRandom[shift], { includeType });
     shift += 1;
   }
   if (options.includeType[CharType.Lower]) {
-    passwordChars[shift] = pick(charRandom[shift], enableChars.lower);
+    const includeType: SettingIncludeTypes = {
+      [CharType.Digit]: false,
+      [CharType.Lower]: true,
+      [CharType.Upper]: false,
+    };
+    passwordChars[shift] = pick(charRandom[shift], { includeType });
     shift += 1;
   }
   if (options.includeType[CharType.Upper]) {
-    passwordChars[shift] = pick(charRandom[shift], enableChars.upper);
+    const includeType: SettingIncludeTypes = {
+      [CharType.Digit]: false,
+      [CharType.Lower]: false,
+      [CharType.Upper]: true,
+    };
+    passwordChars[shift] = pick(charRandom[shift], { includeType });
     shift += 1;
   }
 
   charRandom.slice(shift).forEach((v) => {
-    passwordChars[shift] = pick(v, availableChars);
+    passwordChars[shift] = pick(v);
     shift += 1;
   });
 
