@@ -7,3 +7,11 @@ export const getRandom = (length: number): number[] => {
 
   return randomValues;
 };
+
+export const getSecureRandom = (): number => {
+  const unit32Array = new Uint32Array(1);
+  const unit32RandomValues = crypto.getRandomValues(unit32Array);
+  const randomValues = unit32RandomValues[0] / unit32Max;
+
+  return randomValues;
+};
