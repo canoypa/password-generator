@@ -1,5 +1,5 @@
 import { CharType, digits, lowers, uppers } from "./constant";
-import { getSecureRandom } from "./get_random";
+import { getRandom } from "./get_random";
 import {
   SettingIncludeTypes,
   SettingIncludeTypesKeys,
@@ -33,7 +33,7 @@ const getAvailableChars = (options: CharOptions): string => {
 
 const picker = (defaultOptions: CharOptions) => {
   const pick = (options?: CharOptions) => {
-    const rand = getSecureRandom();
+    const rand = getRandom();
 
     const availableChars = getAvailableChars({
       ...defaultOptions,
@@ -61,7 +61,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
   let passwordChars: string[] = [];
 
   for (let i = 0; i < options.length; i++) {
-    const pos = Math.round(passwordChars.length * getSecureRandom());
+    const pos = Math.round(passwordChars.length * getRandom());
 
     /** include all type */
     if (
