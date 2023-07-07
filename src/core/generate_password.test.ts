@@ -1,11 +1,14 @@
 import { CharType, similarChars } from "./constant";
-import { generatePassword, GeneratePasswordArgs } from "./generate_password";
-import { getRandom } from "./get_random";
+import { GeneratePasswordArgs, generatePassword } from "./generate_password";
+import { getRandom, getSecureRandom } from "./get_random";
 
 // crypto を使用しているためモック
 jest.mock("./get_random");
 (getRandom as jest.Mock).mockImplementation((l) => {
   return [...Array(l)].map(Math.random);
+});
+(getSecureRandom as jest.Mock).mockImplementation(() => {
+  return Math.random();
 });
 
 describe("passwordGenerator()", () => {
