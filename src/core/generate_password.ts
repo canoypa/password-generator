@@ -1,6 +1,6 @@
 import { arrayShuffle } from "./array_shuffle";
 import { CharType, digits, lowers, uppers } from "./constant";
-import { getRandom } from "./get_random";
+import { getRandom, getSecureRandom } from "./get_random";
 import {
   SettingIncludeTypes,
   SettingIncludeTypesKeys,
@@ -33,7 +33,8 @@ const getAvailableChars = (options: CharOptions): string => {
 };
 
 const picker = (defaultOptions: CharOptions) => {
-  const pick = (rand: number, options?: CharOptions) => {
+  const pick = (options?: CharOptions) => {
+    const rand = getSecureRandom();
     const availableChars = getAvailableChars(options ?? defaultOptions);
     return availableChars[Math.round((availableChars.length - 1) * rand)];
   };
@@ -50,7 +51,6 @@ export type GeneratePasswordArgs = {
 export const generatePassword = (options: GeneratePasswordArgs) => {
   const pick = picker(options);
 
-  const charRandom = getRandom(options.length);
   const posRandom = getRandom(options.length);
 
   let passwordChars = [];
@@ -65,7 +65,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
       [CharType.Lower]: options.includeType[CharType.Lower],
       [CharType.Upper]: options.includeType[CharType.Upper],
     };
-    passwordChars[shift] = pick(charRandom[shift], { includeType });
+    passwordChars[shift] = pick({ includeType });
 
     shift += 1;
   }
@@ -76,7 +76,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
       [CharType.Lower]: false,
       [CharType.Upper]: false,
     };
-    passwordChars[shift] = pick(charRandom[shift], { includeType });
+    passwordChars[shift] = pick({ includeType });
     shift += 1;
   }
   if (options.includeType[CharType.Lower]) {
@@ -85,7 +85,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
       [CharType.Lower]: true,
       [CharType.Upper]: false,
     };
-    passwordChars[shift] = pick(charRandom[shift], { includeType });
+    passwordChars[shift] = pick({ includeType });
     shift += 1;
   }
   if (options.includeType[CharType.Upper]) {
@@ -94,14 +94,13 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
       [CharType.Lower]: false,
       [CharType.Upper]: true,
     };
-    passwordChars[shift] = pick(charRandom[shift], { includeType });
+    passwordChars[shift] = pick({ includeType });
     shift += 1;
   }
 
-  charRandom.slice(shift).forEach((v) => {
-    passwordChars[shift] = pick(v);
-    shift += 1;
-  });
+  for (let i = shift; i < options.length; i++) {
+    passwordChars[i] = pick();
+  }
 
   const passwordArr = [
     ...(isIncludeLetter ? passwordChars.slice(0, 1) : []),
