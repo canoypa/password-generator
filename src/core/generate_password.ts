@@ -24,7 +24,7 @@ const getAvailableChars = (options: CharOptions): string => {
   for (const type of SettingIncludeTypesKeys) {
     if (options.includeType[type]) {
       chars += options.excludeChars
-        ? charMap[type].replaceAll(options.excludeChars, "")
+        ? charMap[type].replaceAll(RegExp(`[${options.excludeChars}]`, "g"), "")
         : charMap[type];
     }
   }
@@ -35,7 +35,11 @@ const getAvailableChars = (options: CharOptions): string => {
 const picker = (defaultOptions: CharOptions) => {
   const pick = (options?: CharOptions) => {
     const rand = getSecureRandom();
-    const availableChars = getAvailableChars(options ?? defaultOptions);
+
+    const availableChars = getAvailableChars({
+      ...defaultOptions,
+      ...(options ?? {}),
+    });
     return availableChars[Math.round((availableChars.length - 1) * rand)];
   };
 
