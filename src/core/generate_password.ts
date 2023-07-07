@@ -1,6 +1,5 @@
-import { arrayShuffle } from "./array_shuffle";
 import { CharType, digits, lowers, uppers } from "./constant";
-import { getRandom, getSecureRandom } from "./get_random";
+import { getSecureRandom } from "./get_random";
 import {
   SettingIncludeTypes,
   SettingIncludeTypesKeys,
@@ -55,66 +54,51 @@ export type GeneratePasswordArgs = {
 export const generatePassword = (options: GeneratePasswordArgs) => {
   const pick = picker(options);
 
-  const posRandom = getRandom(options.length);
+  const includeTypes = Object.entries(options.includeType)
+    .filter(([_, v]) => v)
+    .map(([k]) => k as CharType);
 
-  let passwordChars = [];
-  let shift = 0;
+  let passwordChars: string[] = [];
 
-  const isIncludeLetter =
-    options.includeType[CharType.Lower] || options.includeType[CharType.Upper];
+  for (let i = 0; i < options.length; i++) {
+    const pos = Math.round(passwordChars.length * getSecureRandom());
 
-  if (isIncludeLetter) {
-    const includeType: SettingIncludeTypes = {
-      [CharType.Digit]: false,
-      [CharType.Lower]: options.includeType[CharType.Lower],
-      [CharType.Upper]: options.includeType[CharType.Upper],
-    };
-    passwordChars[shift] = pick({ includeType });
+    /** include all type */
+    if (
+      options.includeType[includeTypes[i]] &&
+      !passwordChars.some((v) => charMap[includeTypes[i]].includes(v))
+    ) {
+      const includeType: SettingIncludeTypes = {
+        [CharType.Digit]: false,
+        [CharType.Lower]: false,
+        [CharType.Upper]: false,
 
-    shift += 1;
+        [includeTypes[i]]: true,
+      };
+      passwordChars.splice(pos, 0, pick({ includeType }));
+
+      continue;
+    }
+
+    /* begin with latter */
+    if (
+      i === options.length - 1 &&
+      includeTypes.some((v) => v === CharType.Lower || v === CharType.Upper)
+    ) {
+      const includeType: SettingIncludeTypes = {
+        [CharType.Digit]: false,
+        [CharType.Lower]: options.includeType[CharType.Lower],
+        [CharType.Upper]: options.includeType[CharType.Upper],
+      };
+      passwordChars.splice(0, 0, pick({ includeType }));
+
+      continue;
+    }
+
+    passwordChars.splice(pos, 0, pick());
   }
 
-  if (options.includeType[CharType.Digit]) {
-    const includeType: SettingIncludeTypes = {
-      [CharType.Digit]: true,
-      [CharType.Lower]: false,
-      [CharType.Upper]: false,
-    };
-    passwordChars[shift] = pick({ includeType });
-    shift += 1;
-  }
-  if (options.includeType[CharType.Lower]) {
-    const includeType: SettingIncludeTypes = {
-      [CharType.Digit]: false,
-      [CharType.Lower]: true,
-      [CharType.Upper]: false,
-    };
-    passwordChars[shift] = pick({ includeType });
-    shift += 1;
-  }
-  if (options.includeType[CharType.Upper]) {
-    const includeType: SettingIncludeTypes = {
-      [CharType.Digit]: false,
-      [CharType.Lower]: false,
-      [CharType.Upper]: true,
-    };
-    passwordChars[shift] = pick({ includeType });
-    shift += 1;
-  }
-
-  for (let i = shift; i < options.length; i++) {
-    passwordChars[i] = pick();
-  }
-
-  const passwordArr = [
-    ...(isIncludeLetter ? passwordChars.slice(0, 1) : []),
-    ...arrayShuffle(
-      isIncludeLetter ? passwordChars.slice(1) : passwordChars,
-      posRandom
-    ),
-  ];
-
-  const password = passwordArr.join("");
+  const password = passwordChars.join("");
 
   return password;
 };
