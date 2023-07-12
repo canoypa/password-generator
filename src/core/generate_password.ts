@@ -64,10 +64,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
     const pos = Math.round(passwordChars.length * getRandom());
 
     /** include all type */
-    if (
-      options.includeType[includeTypes[i]] &&
-      !passwordChars.some((v) => charMap[includeTypes[i]].includes(v))
-    ) {
+    if (includeTypes[i]) {
       const includeType: SettingIncludeTypes = {
         [CharType.Digit]: false,
         [CharType.Lower]: false,
