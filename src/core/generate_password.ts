@@ -33,13 +33,11 @@ const getAvailableChars = (options: CharOptions): string => {
 
 const picker = (defaultOptions: CharOptions) => {
   const pick = (options?: CharOptions) => {
-    const rand = getRandom();
-
     const availableChars = getAvailableChars({
       ...defaultOptions,
       ...(options ?? {}),
     });
-    return availableChars[Math.round((availableChars.length - 1) * rand)];
+    return availableChars[getRandom(availableChars.length)];
   };
 
   return pick;
@@ -61,7 +59,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
   let passwordChars: string[] = [];
 
   for (let i = 0; i < options.length; i++) {
-    const pos = Math.round(passwordChars.length * getRandom());
+    const pos = getRandom(passwordChars.length + 1);
 
     /** include all type */
     if (includeTypes[i]) {
