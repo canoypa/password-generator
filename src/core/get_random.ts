@@ -1,9 +1,13 @@
-const unit32Max = 2 ** 32 - 1;
+const UINT_32_MAX = 2 ** 32 - 1;
 
-export const getRandom = (length: number): number[] => {
-  const unit32Array = new Uint32Array(length);
-  const unit32RandomValues = crypto.getRandomValues(unit32Array);
-  const randomValues = [...unit32RandomValues].map((v) => v / unit32Max);
+export const getRandom = (max: number): number => {
+  let r;
 
-  return randomValues;
+  do {
+    r = crypto.getRandomValues(new Uint32Array(1))[0];
+  } while (r > Math.floor(UINT_32_MAX / max) * max);
+
+  r = r % max;
+
+  return r;
 };
