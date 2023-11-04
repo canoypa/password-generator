@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta name="theme-color" content={theme.palette.background.default} />
+        <meta name="color-scheme" content="light dark" />
       </Head>
 
       <ThemeProvider theme={theme}>
