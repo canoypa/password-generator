@@ -1,6 +1,5 @@
 import {
   List,
-  ListItem,
   ListItemButton,
   ListItemText,
   ListSubheader,
@@ -38,24 +37,16 @@ export const Settings: FC = () => {
 
   return (
     <>
-      <List>
-        <ListSubheader>Settings</ListSubheader>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => setLengthOpen(true)}>
-            <ListItemText
-              primary="Password Length"
-              secondary={length ?? "..."}
-            />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => setTypesOpen(true)}>
-            <ListItemText
-              primary="Include Characters"
-              secondary={types ? getIncludeTypesLabel(types) : "..."}
-            />
-          </ListItemButton>
-        </ListItem>
+      <List subheader={<ListSubheader>Settings</ListSubheader>}>
+        <ListItemButton onClick={() => setLengthOpen(true)}>
+          <ListItemText primary="Password Length" secondary={length ?? "..."} />
+        </ListItemButton>
+        <ListItemButton onClick={() => setTypesOpen(true)}>
+          <ListItemText
+            primary="Include Characters"
+            secondary={types ? getIncludeTypesLabel(types) : "..."}
+          />
+        </ListItemButton>
       </List>
 
       {length && (
