@@ -37,8 +37,7 @@ export const Settings: FC = () => {
 
   return (
     <>
-      <List>
-        <ListSubheader>Settings</ListSubheader>
+      <List subheader={<ListSubheader>Settings</ListSubheader>}>
         <ListItemButton onClick={() => setLengthOpen(true)}>
           <ListItemText primary="Password Length" secondary={length ?? "..."} />
         </ListItemButton>
