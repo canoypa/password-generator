@@ -1,4 +1,4 @@
-import { CharType, digits, lowers, uppers } from "./constant";
+import { CharType, digits, lowers, symbols, uppers } from "./constant";
 import { getRandom } from "./get_random";
 import {
   SettingIncludeTypes,
@@ -10,6 +10,7 @@ const charMap: Record<CharType, string> = {
   [CharType.Digit]: digits,
   [CharType.Lower]: lowers,
   [CharType.Upper]: uppers,
+  [CharType.Symbol]: symbols,
 };
 
 type CharOptions = {
@@ -67,6 +68,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
         [CharType.Digit]: false,
         [CharType.Lower]: false,
         [CharType.Upper]: false,
+        [CharType.Symbol]: false,
 
         [includeTypes[i]]: true,
       };
@@ -82,6 +84,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
     ) {
       const includeType: SettingIncludeTypes = {
         [CharType.Digit]: false,
+        [CharType.Symbol]: false,
         [CharType.Lower]: options.includeType[CharType.Lower],
         [CharType.Upper]: options.includeType[CharType.Upper],
       };
