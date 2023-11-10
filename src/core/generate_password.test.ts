@@ -5,7 +5,7 @@ import { getRandom } from "./get_random";
 // crypto を使用しているためモック
 jest.mock("./get_random");
 (getRandom as jest.Mock).mockImplementation((max: number) => {
-  return Math.round(Math.random() * max);
+  return Math.round(Math.random() * (max - 1));
 });
 
 describe("passwordGenerator()", () => {
