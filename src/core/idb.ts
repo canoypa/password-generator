@@ -1,5 +1,6 @@
-import { DBSchema, IDBPDatabase, openDB } from "idb";
-import { SettingKeys } from "./settings";
+import { DBSchema, IDBPDatabase, OpenDBCallbacks, openDB } from "idb";
+import { CharType } from "./constant";
+import { SettingKeys, Settings } from "./settings";
 
 interface PGDBScheme extends DBSchema {
   settings: {
@@ -8,13 +9,30 @@ interface PGDBScheme extends DBSchema {
   };
 }
 
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 let appDB: Promise<IDBPDatabase<PGDBScheme>> | null = null;
 
-const upgrade = (db: IDBPDatabase<PGDBScheme>, oldVersion: number) => {
+const upgrade: OpenDBCallbacks<PGDBScheme>["upgrade"] = async (
+  db,
+  oldVersion,
+  _newVersion,
+  transaction
+) => {
   if (oldVersion < 1) {
     db.createObjectStore("settings");
+  }
+
+  // add symbol to exiting include types setting
+  if (oldVersion < 2) {
+    const oldValue = (await transaction
+      .objectStore("settings")
+      .get("includeTypes")) as Settings["includeTypes"];
+    if (!oldValue) return;
+
+    await transaction
+      .objectStore("settings")
+      .put({ ...oldValue, [CharType.Symbol]: true }, "includeTypes");
   }
 };
 

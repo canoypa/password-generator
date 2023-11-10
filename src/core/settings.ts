@@ -16,6 +16,7 @@ export const DefaultSettings: Settings = {
     [CharType.Digit]: true,
     [CharType.Lower]: true,
     [CharType.Upper]: true,
+    [CharType.Symbol]: true,
   },
 };
 
