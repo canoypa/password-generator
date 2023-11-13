@@ -19,7 +19,7 @@ describe("passwordGenerator()", () => {
         [CharType.Symbol]: true,
       },
       beginWithLetter: true,
-      excludeChars: similarChars,
+      excludeSpecifyChars: { enabled: true, chars: similarChars },
     };
 
     const password = generatePassword(opt);
@@ -43,7 +43,7 @@ describe("passwordGenerator()", () => {
         [CharType.Symbol]: false,
       },
       beginWithLetter: true,
-      excludeChars: similarChars,
+      excludeSpecifyChars: { enabled: true, chars: similarChars },
     };
 
     const password = generatePassword(opt);
@@ -63,7 +63,7 @@ describe("passwordGenerator()", () => {
         [CharType.Symbol]: false,
       },
       beginWithLetter: true,
-      excludeChars: similarChars,
+      excludeSpecifyChars: { enabled: true, chars: similarChars },
     };
 
     const password = generatePassword(opt);
@@ -83,7 +83,7 @@ describe("passwordGenerator()", () => {
         [CharType.Symbol]: false,
       },
       beginWithLetter: true,
-      excludeChars: similarChars,
+      excludeSpecifyChars: { enabled: true, chars: similarChars },
     };
 
     const password = generatePassword(opt);
@@ -103,7 +103,7 @@ describe("passwordGenerator()", () => {
         [CharType.Symbol]: true,
       },
       beginWithLetter: true,
-      excludeChars: similarChars,
+      excludeSpecifyChars: { enabled: true, chars: similarChars },
     };
 
     const password = generatePassword(opt);

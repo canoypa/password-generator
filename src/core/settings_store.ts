@@ -21,3 +21,6 @@ const settingAtom = <K extends SettingKeys, V extends Settings[K]>(key: K) => {
 export const passwordLengthSettingAtom = settingAtom("passwordLength");
 export const includeTypesSettingAtom = settingAtom("includeTypes");
 export const beginWithLetterSettingAtom = settingAtom("beginWithLetter");
+export const excludeSpecifyCharsSettingAtom = settingAtom(
+  "excludeSpecifyChars"
+);

@@ -9,10 +9,11 @@ import {
 import { useAtom } from "jotai/react";
 import dynamic from "next/dynamic";
 import { FC, useState } from "react";
-import { CharTypeLabel } from "../core/constant";
+import { CharTypeLabel, similarChars } from "../core/constant";
 import { SettingIncludeTypes, SettingIncludeTypesKeys } from "../core/settings";
 import {
   beginWithLetterSettingAtom,
+  excludeSpecifyCharsSettingAtom,
   includeTypesSettingAtom,
   passwordLengthSettingAtom,
 } from "../core/settings_store";
@@ -37,6 +38,9 @@ export const Settings: FC = () => {
   const [beginWithLetter, setBeginWithLetter] = useAtom(
     beginWithLetterSettingAtom
   );
+  const [excludeSpecifyChars, setExcludeSpecifyChars] = useAtom(
+    excludeSpecifyCharsSettingAtom
+  );
 
   const [lengthOpen, setLengthOpen] = useState(false);
   const [typesOpen, setTypesOpen] = useState(false);
@@ -59,6 +63,20 @@ export const Settings: FC = () => {
             edge="end"
             checked={beginWithLetter ?? true}
             onChange={() => setBeginWithLetter(!beginWithLetter)}
+            disabled={!types}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Exclude Similar Chars" />
+          <Switch
+            edge="end"
+            checked={excludeSpecifyChars?.enabled ?? true}
+            onChange={() =>
+              setExcludeSpecifyChars({
+                enabled: !excludeSpecifyChars?.enabled,
+                chars: similarChars,
+              })
+            }
             disabled={!types}
           />
         </ListItem>
