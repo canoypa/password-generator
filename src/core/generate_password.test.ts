@@ -18,6 +18,7 @@ describe("passwordGenerator()", () => {
         [CharType.Upper]: true,
         [CharType.Symbol]: true,
       },
+      beginWithLetter: true,
       excludeChars: similarChars,
     };
 
@@ -41,6 +42,7 @@ describe("passwordGenerator()", () => {
         [CharType.Upper]: false,
         [CharType.Symbol]: false,
       },
+      beginWithLetter: true,
       excludeChars: similarChars,
     };
 
@@ -60,6 +62,7 @@ describe("passwordGenerator()", () => {
         [CharType.Upper]: false,
         [CharType.Symbol]: false,
       },
+      beginWithLetter: true,
       excludeChars: similarChars,
     };
 
@@ -79,6 +82,7 @@ describe("passwordGenerator()", () => {
         [CharType.Upper]: true,
         [CharType.Symbol]: false,
       },
+      beginWithLetter: true,
       excludeChars: similarChars,
     };
 
@@ -98,6 +102,7 @@ describe("passwordGenerator()", () => {
         [CharType.Upper]: false,
         [CharType.Symbol]: true,
       },
+      beginWithLetter: true,
       excludeChars: similarChars,
     };
 

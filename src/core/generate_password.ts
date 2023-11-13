@@ -1,6 +1,7 @@
 import { CharType, digits, lowers, symbols, uppers } from "./constant";
 import { getRandom } from "./get_random";
 import {
+  SettingBeginWithLetter,
   SettingIncludeTypes,
   SettingIncludeTypesKeys,
   SettingPasswordLength,
@@ -47,6 +48,7 @@ const picker = (defaultOptions: CharOptions) => {
 export type GeneratePasswordArgs = {
   length: SettingPasswordLength;
   includeType: SettingIncludeTypes;
+  beginWithLetter: SettingBeginWithLetter;
 
   excludeChars?: string;
 };
@@ -79,6 +81,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
 
     /* begin with latter */
     if (
+      options.beginWithLetter &&
       i === options.length - 1 &&
       includeTypes.some((v) => v === CharType.Lower || v === CharType.Upper)
     ) {
