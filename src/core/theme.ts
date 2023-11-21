@@ -214,7 +214,6 @@ export const createTheme = (mode: PaletteMode) => {
             borderRadius: 16,
             border: `2px solid ${theme.palette.outline.main}`,
             backgroundColor: theme.palette.surfaceVariant.main,
-            overflow: "visible",
             transition: theme.transitions.create(
               ["background-color", "border-color"],
               {
