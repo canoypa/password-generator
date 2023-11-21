@@ -1,15 +1,19 @@
 import {
   List,
+  ListItem,
   ListItemButton,
   ListItemText,
   ListSubheader,
+  Switch,
 } from "@mui/material";
 import { useAtom } from "jotai/react";
 import dynamic from "next/dynamic";
 import { FC, useState } from "react";
-import { CharTypeLabel } from "../core/constant";
+import { CharTypeLabel, similarChars } from "../core/constant";
 import { SettingIncludeTypes, SettingIncludeTypesKeys } from "../core/settings";
 import {
+  beginWithLetterSettingAtom,
+  excludeSpecifyCharsSettingAtom,
   includeTypesSettingAtom,
   passwordLengthSettingAtom,
 } from "../core/settings_store";
@@ -31,6 +35,12 @@ const getIncludeTypesLabel = (types: SettingIncludeTypes): string => {
 export const Settings: FC = () => {
   const [length, setLength] = useAtom(passwordLengthSettingAtom);
   const [types, setTypes] = useAtom(includeTypesSettingAtom);
+  const [beginWithLetter, setBeginWithLetter] = useAtom(
+    beginWithLetterSettingAtom
+  );
+  const [excludeSpecifyChars, setExcludeSpecifyChars] = useAtom(
+    excludeSpecifyCharsSettingAtom
+  );
 
   const [lengthOpen, setLengthOpen] = useState(false);
   const [typesOpen, setTypesOpen] = useState(false);
@@ -47,6 +57,29 @@ export const Settings: FC = () => {
             secondary={types ? getIncludeTypesLabel(types) : "..."}
           />
         </ListItemButton>
+        <ListItem>
+          <ListItemText primary="Begin With Letter" />
+          <Switch
+            edge="end"
+            checked={beginWithLetter ?? true}
+            onChange={() => setBeginWithLetter(!beginWithLetter)}
+            disabled={!types}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Exclude Similar Chars" />
+          <Switch
+            edge="end"
+            checked={excludeSpecifyChars?.enabled ?? true}
+            onChange={() =>
+              setExcludeSpecifyChars({
+                enabled: !excludeSpecifyChars?.enabled,
+                chars: similarChars,
+              })
+            }
+            disabled={!types}
+          />
+        </ListItem>
       </List>
 
       {length && (

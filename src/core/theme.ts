@@ -203,6 +203,66 @@ export const createTheme = (mode: PaletteMode) => {
           },
         ],
       },
+
+      MuiSwitch: {
+        styleOverrides: {
+          root: ({ ownerState, theme }) => ({
+            justifyContent: "center",
+            padding: 0,
+            width: 51,
+            height: 32,
+            borderRadius: 16,
+            border: `2px solid ${theme.palette.outline.main}`,
+            backgroundColor: theme.palette.surfaceVariant.main,
+            transition: theme.transitions.create(
+              ["background-color", "border-color"],
+              {
+                duration: "150ms",
+              }
+            ),
+
+            ...(ownerState.checked && {
+              borderColor: "transparent",
+              backgroundColor: theme.palette.primary.main,
+            }),
+          }),
+          switchBase: () => ({
+            position: "relative",
+            top: -6,
+            padding: 0,
+            width: 40,
+            height: 40,
+            transform: "translateX(-10px)",
+            "&.Mui-checked": {
+              transform: "translateX(10px)",
+            },
+          }),
+          track: {
+            display: "none",
+          },
+          thumb: ({ ownerState, theme }) => ({
+            width: 16,
+            height: 16,
+            boxShadow: "none",
+            backgroundColor: theme.palette.outline.main,
+            transition: theme.transitions.create(
+              ["transform", "background-color"],
+              {
+                duration: "150ms",
+              }
+            ),
+
+            // ...(ownerState && {
+            //   backgroundColor: theme.palette.onPrimary.main,
+            //   transform: "scale(1.5)",
+            // }),
+            ...(ownerState.checked && {
+              backgroundColor: theme.palette.onPrimary.main,
+              transform: "scale(1.5)",
+            }),
+          }),
+        },
+      },
     },
   });
 };

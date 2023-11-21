@@ -1,6 +1,8 @@
 import { CharType, digits, lowers, symbols, uppers } from "./constant";
 import { getRandom } from "./get_random";
 import {
+  SettingBeginWithLetter,
+  SettingExcludeSpecifyChars,
   SettingIncludeTypes,
   SettingIncludeTypesKeys,
   SettingPasswordLength,
@@ -15,7 +17,7 @@ const charMap: Record<CharType, string> = {
 
 type CharOptions = {
   includeType: SettingIncludeTypes;
-  excludeChars?: string;
+  excludeSpecifyChars: SettingExcludeSpecifyChars;
 };
 
 const getAvailableChars = (options: CharOptions): string => {
@@ -23,8 +25,11 @@ const getAvailableChars = (options: CharOptions): string => {
 
   for (const type of SettingIncludeTypesKeys) {
     if (options.includeType[type]) {
-      chars += options.excludeChars
-        ? charMap[type].replaceAll(RegExp(`[${options.excludeChars}]`, "g"), "")
+      chars += options.excludeSpecifyChars.enabled
+        ? charMap[type].replaceAll(
+            RegExp(`[${options.excludeSpecifyChars.chars}]`, "g"),
+            ""
+          )
         : charMap[type];
     }
   }
@@ -47,8 +52,8 @@ const picker = (defaultOptions: CharOptions) => {
 export type GeneratePasswordArgs = {
   length: SettingPasswordLength;
   includeType: SettingIncludeTypes;
-
-  excludeChars?: string;
+  beginWithLetter: SettingBeginWithLetter;
+  excludeSpecifyChars: SettingExcludeSpecifyChars;
 };
 export const generatePassword = (options: GeneratePasswordArgs) => {
   const pick = picker(options);
@@ -64,31 +69,38 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
 
     /** include all type */
     if (includeTypes[i]) {
-      const includeType: SettingIncludeTypes = {
-        [CharType.Digit]: false,
-        [CharType.Lower]: false,
-        [CharType.Upper]: false,
-        [CharType.Symbol]: false,
+      const pickOptions: CharOptions = {
+        includeType: {
+          [CharType.Digit]: false,
+          [CharType.Lower]: false,
+          [CharType.Upper]: false,
+          [CharType.Symbol]: false,
 
-        [includeTypes[i]]: true,
+          [includeTypes[i]]: true,
+        },
+        excludeSpecifyChars: options.excludeSpecifyChars,
       };
-      passwordChars.splice(pos, 0, pick({ includeType }));
+      passwordChars.splice(pos, 0, pick(pickOptions));
 
       continue;
     }
 
     /* begin with latter */
     if (
+      options.beginWithLetter &&
       i === options.length - 1 &&
       includeTypes.some((v) => v === CharType.Lower || v === CharType.Upper)
     ) {
-      const includeType: SettingIncludeTypes = {
-        [CharType.Digit]: false,
-        [CharType.Symbol]: false,
-        [CharType.Lower]: options.includeType[CharType.Lower],
-        [CharType.Upper]: options.includeType[CharType.Upper],
+      const pickOptions: CharOptions = {
+        includeType: {
+          [CharType.Digit]: false,
+          [CharType.Symbol]: false,
+          [CharType.Lower]: options.includeType[CharType.Lower],
+          [CharType.Upper]: options.includeType[CharType.Upper],
+        },
+        excludeSpecifyChars: options.excludeSpecifyChars,
       };
-      passwordChars.splice(0, 0, pick({ includeType }));
+      passwordChars.splice(0, 0, pick(pickOptions));
 
       continue;
     }

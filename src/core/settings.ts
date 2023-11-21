@@ -1,12 +1,16 @@
-import { CharType } from "./constant";
+import { CharType, similarChars } from "./constant";
 import { getAppDatabase } from "./idb";
 
 export type SettingPasswordLength = number;
 export type SettingIncludeTypes = Record<CharType, boolean>;
+export type SettingBeginWithLetter = boolean;
+export type SettingExcludeSpecifyChars = { enabled: boolean; chars: string };
 
 export type Settings = {
   passwordLength: SettingPasswordLength;
   includeTypes: SettingIncludeTypes;
+  beginWithLetter: SettingBeginWithLetter;
+  excludeSpecifyChars: SettingExcludeSpecifyChars;
 };
 export type SettingKeys = keyof Settings;
 
@@ -18,6 +22,8 @@ export const DefaultSettings: Settings = {
     [CharType.Upper]: true,
     [CharType.Symbol]: true,
   },
+  beginWithLetter: true,
+  excludeSpecifyChars: { enabled: true, chars: similarChars },
 };
 
 export const SettingIncludeTypesKeys: CharType[] = Object.keys(
@@ -31,7 +37,7 @@ export const getSetting = async <K extends SettingKeys>(
 
   const value = await db.get("settings", key);
 
-  if (!value) return DefaultSettings[key];
+  if (value === undefined) return DefaultSettings[key];
   return value as Settings[K];
 };
 

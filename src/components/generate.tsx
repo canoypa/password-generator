@@ -1,10 +1,9 @@
 import { Button, InputBase, Snackbar, Stack, styled } from "@mui/material";
 import { useRouter } from "next/router";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
-import { similarChars } from "../core/constant";
 import {
-  generatePassword,
   GeneratePasswordArgs,
+  generatePassword,
 } from "../core/generate_password";
 import { useSettings } from "../core/use_settings";
 
@@ -38,12 +37,19 @@ export const Generate: FC = () => {
   );
 
   const generate = useCallback(() => {
-    if (!settings.length || !settings.includeType) return;
+    if (
+      !settings.length ||
+      !settings.includeType ||
+      settings.beginWithLetter === undefined ||
+      !settings.excludeSpecifyChars
+    )
+      return;
 
     const options: GeneratePasswordArgs = {
       length: settings.length,
       includeType: settings.includeType,
-      excludeChars: similarChars,
+      beginWithLetter: settings.beginWithLetter,
+      excludeSpecifyChars: settings.excludeSpecifyChars,
     };
 
     const password = generatePassword(options);
