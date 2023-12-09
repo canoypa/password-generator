@@ -34,24 +34,6 @@
     }
   ],
 
-  "screenshots": [
-    {
-      "src": "screenshots/0.png",
-      "sizes": "960x1280",
-      "type": "image/png"
-    },
-    {
-      "src": "screenshots/1.png",
-      "sizes": "960x1280",
-      "type": "image/png"
-    },
-    {
-      "src": "screenshots/2.png",
-      "sizes": "960x1280",
-      "type": "image/png"
-    }
-  ],
-
   "shortcuts": [
     {
       "url": "/?copy=true",
