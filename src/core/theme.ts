@@ -225,6 +225,9 @@ export const createTheme = (mode: PaletteMode) => {
               borderColor: "transparent",
               backgroundColor: theme.palette.primary.main,
             }),
+            ...(ownerState.disabled && {
+              opacity: 0.3,
+            }),
           }),
           switchBase: () => ({
             position: "relative",
@@ -259,6 +262,9 @@ export const createTheme = (mode: PaletteMode) => {
             ...(ownerState.checked && {
               backgroundColor: theme.palette.onPrimary.main,
               transform: "scale(1.5)",
+            }),
+            ...(ownerState.disabled && {
+              opacity: 0.3,
             }),
           }),
         },
