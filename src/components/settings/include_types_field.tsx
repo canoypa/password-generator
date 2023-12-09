@@ -1,44 +1,46 @@
-import { ListItemButton, ListItemText } from "@mui/material";
+import { Chip, ListItem, ListItemText, Stack } from "@mui/material";
 import { useAtom } from "jotai";
-import dynamic from "next/dynamic";
-import { useState } from "react";
-import { CharTypeLabel } from "../../core/constant";
-import {
-  SettingIncludeTypes,
-  SettingIncludeTypesKeys,
-} from "../../core/settings";
+import { CharType, CharTypeLabel } from "../../core/constant";
+import { SettingIncludeTypesKeys } from "../../core/settings";
 import { includeTypesSettingAtom } from "../../core/settings_store";
-
-const IncludeTypeDialog = dynamic(() => import("./include_type_dialog"));
-
-const getIncludeTypesLabel = (types: SettingIncludeTypes): string => {
-  return SettingIncludeTypesKeys.reduce<string[]>((pre, type) => {
-    if (types[type]) return [...pre, CharTypeLabel[type]];
-    return pre;
-  }, []).join(", ");
-};
 
 export const IncludeTypesField = () => {
   const [types, setTypes] = useAtom(includeTypesSettingAtom);
-  const [typesOpen, setTypesOpen] = useState(false);
+
+  const toggle = (type: CharType) => {
+    return () => {
+      if (!types) return;
+
+      // if true is only one, noop
+      if (types[type] && Object.values(types).filter(Boolean).length === 1) {
+        return;
+      }
+
+      setTypes({ ...types, [type]: !types[type] });
+    };
+  };
 
   return (
-    <>
-      <ListItemButton onClick={() => setTypesOpen(true)}>
-        <ListItemText
-          primary="Include Characters"
-          secondary={types ? getIncludeTypesLabel(types) : "..."}
-        />
-      </ListItemButton>
-
-      {types && (
-        <IncludeTypeDialog
-          open={typesOpen}
-          onSubmit={(v) => setTypes(v)}
-          onClose={() => setTypesOpen(false)}
-          value={types}
-        />
-      )}
-    </>
+    <ListItem>
+      <Stack>
+        <ListItemText primary="Include Characters" />
+        <Stack direction="row" spacing={1} mt={1}>
+          {SettingIncludeTypesKeys.map((type) => {
+            return (
+              <Chip
+                key={type}
+                label={CharTypeLabel[type]}
+                size="small"
+                variant="outlined"
+                // instead of selected
+                color={types?.[type] ? "primary" : "default"}
+                disabled={!types}
+                onClick={toggle(type)}
+              />
+            );
+          })}
+        </Stack>
+      </Stack>
+    </ListItem>
   );
 };
