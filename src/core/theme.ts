@@ -1,13 +1,13 @@
-import { hexFromArgb, Scheme } from "@material/material-color-utilities";
+import { Scheme, hexFromArgb } from "@material/material-color-utilities";
 import {
-  alpha,
-  createTheme as createMuiTheme,
-  darken,
   PaletteColor,
   PaletteColorOptions,
   PaletteMode,
   PaletteOptions,
   TypeBackground,
+  alpha,
+  darken,
+  experimental_extendTheme as extendTheme,
 } from "@mui/material";
 
 type M3ColorSchemeKeys =
@@ -130,9 +130,12 @@ const createPalette = (mode: PaletteMode): PaletteOptions => {
   return options;
 };
 
-export const createTheme = (mode: PaletteMode) => {
-  return createMuiTheme({
-    palette: createPalette(mode),
+export const createTheme = () => {
+  return extendTheme({
+    colorSchemes: {
+      light: { palette: createPalette("light") },
+      dark: { palette: createPalette("dark") },
+    },
 
     components: {
       MuiListSubheader: {
