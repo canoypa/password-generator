@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="color-scheme" content="light dark" />
       </Head>
 
-      <CssVarsProvider theme={theme}>
+      <CssVarsProvider theme={theme} defaultMode="system">
         <CssBaseline />
 
         <Component {...pageProps} />
