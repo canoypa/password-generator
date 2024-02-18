@@ -174,19 +174,15 @@ export const createTheme = () => {
 				variants: [
 					{
 						props: { variant: "filledTonal" },
-						style: ({ theme }) => {
-							console.log(theme.vars.palette.secondaryContainer);
+						style: ({ theme }) => ({
+							padding: "0 24px",
+							backgroundColor: theme.vars.palette.secondaryContainer.main,
 
-							return {
-								padding: "0 24px",
-								backgroundColor: theme.vars.palette.secondaryContainer.main,
-
-								"&:hover": {
-									backgroundColor: `rgb(${theme.vars.palette.secondaryContainer.mainChannel} / calc(1 - ${theme.vars.palette.action.hoverOpacity}))`,
-									boxShadow: theme.shadows[1],
-								},
-							};
-						},
+							"&:hover": {
+								backgroundColor: `rgb(${theme.vars.palette.secondaryContainer.mainChannel} / calc(1 - ${theme.vars.palette.action.hoverOpacity}))`,
+								boxShadow: theme.shadows[1],
+							},
+						}),
 					},
 					{
 						props: { variant: "text" },
