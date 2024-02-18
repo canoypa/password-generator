@@ -11,7 +11,7 @@ const Output = styled(InputBase)(({ theme }) => ({
   padding: "0 16px",
   height: "56px",
   borderRadius: "4px",
-  backgroundColor: theme.palette.surfaceVariant.main,
+  backgroundColor: theme.vars.palette.surfaceVariant.main,
   fontFamily: "monospace",
 }));
 

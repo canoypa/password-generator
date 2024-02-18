@@ -1,27 +1,29 @@
-import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
+import {
+  CssBaseline,
+  Experimental_CssVarsProvider as CssVarsProvider,
+} from "@mui/material";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useMemo } from "react";
 import { createTheme } from "../core/theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const isLightScheme = useMediaQuery("(prefers-color-scheme:light)");
-  const mode = isLightScheme ? "light" : "dark";
-
-  const theme = useMemo(() => createTheme(mode), [mode]);
+  const theme = createTheme();
 
   return (
     <>
       <Head>
-        <meta name="theme-color" content={theme.palette.background.default} />
+        <meta
+          name="theme-color"
+          content={theme.colorSchemes.dark.palette.background.default}
+        />
         <meta name="color-scheme" content="light dark" />
       </Head>
 
-      <ThemeProvider theme={theme}>
+      <CssVarsProvider theme={theme} defaultMode="system">
         <CssBaseline />
 
         <Component {...pageProps} />
-      </ThemeProvider>
+      </CssVarsProvider>
     </>
   );
 }
