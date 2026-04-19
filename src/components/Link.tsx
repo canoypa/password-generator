@@ -1,6 +1,6 @@
 import { Link as MuiLink } from "@mui/material";
 import NextLink from "next/link";
-import { FC, HTMLAttributeAnchorTarget, ReactNode } from "react";
+import type { FC, HTMLAttributeAnchorTarget, ReactNode } from "react";
 
 type LinkProps = {
   href: string;
