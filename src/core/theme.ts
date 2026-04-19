@@ -174,7 +174,7 @@ export const createTheme = () => {
               backgroundColor: theme.vars.palette.secondaryContainer.main,
 
               "&:hover": {
-                backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondaryContainer.main} 90%, transparent)`,
+                backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondaryContainer.main} ${(1 - theme.vars.palette.action.hoverOpacity) * 100}%, transparent)`,
                 boxShadow: theme.shadows[1],
               },
             }),
@@ -186,7 +186,7 @@ export const createTheme = () => {
               color: theme.vars.palette.primary.main,
 
               "&:hover": {
-                backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 10%, transparent)`,
+                backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} calc(${theme.vars.palette.action.hoverOpacity} * 100%), transparent)`,
               },
             }),
           },
