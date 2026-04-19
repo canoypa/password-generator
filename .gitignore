@@ -16,6 +16,9 @@
 /public/sw.js
 /public/workbox-*.js
 
+# vite
+/dist
+
 # production
 /build
 
