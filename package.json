@@ -3,10 +3,9 @@
   "version": "1.2.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "export": "next export",
-    "start": "next start",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "lint": "biome check .",
     "format": "biome format --write .",
     "test": "vitest"
@@ -28,7 +27,11 @@
     "@biomejs/biome": "^2.4.12",
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.42",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
     "typescript": "^5.3.3",
+    "vite": "^6.4.2",
+    "vite-plugin-pwa": "^0.21.2",
     "vitest": "^4.1.4"
   }
 }
