@@ -1,10 +1,14 @@
+import { type Mock, vi } from "vitest";
 import { CharType, similarChars } from "./constant";
-import { GeneratePasswordArgs, generatePassword } from "./generate_password";
+import {
+  type GeneratePasswordArgs,
+  generatePassword,
+} from "./generate_password";
 import { getRandom } from "./get_random";
 
 // crypto を使用しているためモック
-jest.mock("./get_random");
-(getRandom as jest.Mock).mockImplementation((max: number) => {
+vi.mock("./get_random");
+(getRandom as Mock).mockImplementation((max: number) => {
   return Math.round(Math.random() * (max - 1));
 });
 
