@@ -1,7 +1,7 @@
 const UINT_32_MAX = 2 ** 32 - 1;
 
 export const getRandom = (max: number): number => {
-  let r;
+  let r: number;
 
   do {
     r = crypto.getRandomValues(new Uint32Array(1))[0];

@@ -1,8 +1,8 @@
 import { Button, InputBase, Snackbar, Stack, styled } from "@mui/material";
 import { useRouter } from "next/router";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { type FC, useCallback, useEffect, useRef, useState } from "react";
 import {
-  GeneratePasswordArgs,
+  type GeneratePasswordArgs,
   generatePassword,
 } from "../core/generate_password";
 import { useSettings } from "../core/use_settings";
@@ -67,7 +67,7 @@ export const Generate: FC = () => {
   }, []);
 
   // re-generate password when first mount or update settings
-  useEffect(() => generate(), [generate, settings]);
+  useEffect(() => generate(), [generate]);
 
   useEffect(() => {
     if (!isCopied.current && router.query.copy && password) {
@@ -75,7 +75,7 @@ export const Generate: FC = () => {
       isCopied.current = true;
       router.replace("/");
     }
-  }, [password]);
+  }, [password, copy, router]);
 
   return (
     <Stack rowGap={3}>
