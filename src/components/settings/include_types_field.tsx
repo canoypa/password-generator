@@ -24,7 +24,7 @@ export const IncludeTypesField = () => {
     <ListItem>
       <Stack>
         <ListItemText primary="Include Characters" />
-        <Stack direction="row" spacing={1} mt={1}>
+        <Stack sx={{ flexDirection: "row", flexWrap: "wrap", gap: 1, mt: 1 }}>
           {SettingIncludeTypesKeys.map((type) => {
             return (
               <Chip

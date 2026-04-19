@@ -1,11 +1,11 @@
 import { hexFromArgb, Scheme } from "@material/material-color-utilities";
 import {
-  experimental_extendTheme as extendTheme,
+  extendTheme,
+  type PaletteColor,
   type PaletteColorOptions,
   type PaletteMode,
   type PaletteOptions,
 } from "@mui/material";
-import type {} from "@mui/material/themeCssVarsAugmentation";
 
 type M3ColorSchemeKeys =
   | "primary"
@@ -55,7 +55,6 @@ declare module "@mui/material/styles" {
     errorContainer?: PaletteColorOptions;
     onError?: PaletteColorOptions;
     onErrorContainer?: PaletteColorOptions;
-    background?: Partial<TypeBackground>;
     onBackground?: PaletteColorOptions;
     surface?: PaletteColorOptions;
     onSurface?: PaletteColorOptions;
@@ -69,11 +68,9 @@ declare module "@mui/material/styles" {
   }
 
   interface Palette {
-    primary: PaletteColor;
     primaryContainer: PaletteColor;
     onPrimary: PaletteColor;
     onPrimaryContainer: PaletteColor;
-    secondary: PaletteColor;
     secondaryContainer: PaletteColor;
     onSecondary: PaletteColor;
     onSecondaryContainer: PaletteColor;
@@ -81,11 +78,9 @@ declare module "@mui/material/styles" {
     tertiaryContainer: PaletteColor;
     onTertiary: PaletteColor;
     onTertiaryContainer: PaletteColor;
-    error: PaletteColor;
     errorContainer: PaletteColor;
     onError: PaletteColor;
     onErrorContainer: PaletteColor;
-    background: TypeBackground;
     onBackground: PaletteColor;
     surface: PaletteColor;
     onSurface: PaletteColor;
@@ -179,7 +174,7 @@ export const createTheme = () => {
               backgroundColor: theme.vars.palette.secondaryContainer.main,
 
               "&:hover": {
-                backgroundColor: `rgb(${theme.vars.palette.secondaryContainer.mainChannel} / calc(1 - ${theme.vars.palette.action.hoverOpacity}))`,
+                backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondaryContainer.main} ${(1 - theme.vars.palette.action.hoverOpacity) * 100}%, transparent)`,
                 boxShadow: theme.shadows[1],
               },
             }),
@@ -191,7 +186,7 @@ export const createTheme = () => {
               color: theme.vars.palette.primary.main,
 
               "&:hover": {
-                backgroundColor: `rgb(${theme.vars.palette.primary.mainChannel} / calc(1 - ${theme.vars.palette.action.hoverOpacity}))`,
+                backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} calc(${theme.vars.palette.action.hoverOpacity} * 100%), transparent)`,
               },
             }),
           },

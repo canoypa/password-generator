@@ -6,10 +6,10 @@ import { Settings } from "./components/settings";
 
 export const App = () => {
   return (
-    <Stack mx="auto" py={3} maxWidth="sm" rowGap={8}>
+    <Stack sx={{ mx: "auto", py: 3, maxWidth: "sm", rowGap: 8 }}>
       <Hero />
 
-      <Box px={3}>
+      <Box sx={{ px: 3 }}>
         <Generate />
       </Box>
 

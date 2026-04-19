@@ -30,7 +30,7 @@ export const PasswordLengthSettingField = () => {
       <Stack sx={{ flex: 1 }}>
         <ListItemText primary="Password Length" />
 
-        <Stack direction="row" spacing={2} mt={1}>
+        <Stack sx={{ flexDirection: "row", gap: 2, mt: 1 }}>
           <Slider
             min={2}
             max={5}
