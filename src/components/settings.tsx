@@ -1,5 +1,5 @@
 import { List, ListSubheader } from "@mui/material";
-import { FC } from "react";
+import type { FC } from "react";
 import { BeginWithLetterField } from "./settings/begin_with_letter_field";
 import { ExcludeSpecifyCharsField } from "./settings/exclude_specify_chars_field";
 import { IncludeTypesField } from "./settings/include_types_field";

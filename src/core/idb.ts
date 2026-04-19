@@ -1,6 +1,11 @@
-import { DBSchema, IDBPDatabase, OpenDBCallbacks, openDB } from "idb";
+import {
+  type DBSchema,
+  type IDBPDatabase,
+  type OpenDBCallbacks,
+  openDB,
+} from "idb";
 import { CharType } from "./constant";
-import { SettingKeys, Settings } from "./settings";
+import type { SettingKeys, Settings } from "./settings";
 
 interface PGDBScheme extends DBSchema {
   settings: {

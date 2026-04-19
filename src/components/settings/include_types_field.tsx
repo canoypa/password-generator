@@ -1,6 +1,6 @@
 import { Chip, ListItem, ListItemText, Stack } from "@mui/material";
 import { useAtom } from "jotai";
-import { CharType, CharTypeLabel } from "../../core/constant";
+import { type CharType, CharTypeLabel } from "../../core/constant";
 import { SettingIncludeTypesKeys } from "../../core/settings";
 import { includeTypesSettingAtom } from "../../core/settings_store";
 

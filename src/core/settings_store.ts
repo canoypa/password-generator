@@ -1,5 +1,10 @@
 import { atom } from "jotai";
-import { getSetting, setSetting, SettingKeys, Settings } from "./settings";
+import {
+  getSetting,
+  type SettingKeys,
+  type Settings,
+  setSetting,
+} from "./settings";
 
 const settingAtom = <K extends SettingKeys, V extends Settings[K]>(key: K) => {
   const baseAtom = atom<V | undefined>(undefined);

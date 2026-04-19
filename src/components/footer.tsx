@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import { FC } from "react";
+import type { FC } from "react";
 import { Link } from "./Link";
 
 export const Footer: FC = () => {

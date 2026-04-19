@@ -1,6 +1,6 @@
 import { Input, ListItem, ListItemText, Slider, Stack } from "@mui/material";
 import { useAtom } from "jotai";
-import { ChangeEventHandler } from "react";
+import type { ChangeEventHandler } from "react";
 import { passwordLengthSettingAtom } from "../../core/settings_store";
 
 const LENGTH_MIN = 4;

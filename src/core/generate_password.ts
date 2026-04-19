@@ -1,11 +1,11 @@
 import { CharType, digits, lowers, symbols, uppers } from "./constant";
 import { getRandom } from "./get_random";
 import {
-  SettingBeginWithLetter,
-  SettingExcludeSpecifyChars,
-  SettingIncludeTypes,
+  type SettingBeginWithLetter,
+  type SettingExcludeSpecifyChars,
+  type SettingIncludeTypes,
   SettingIncludeTypesKeys,
-  SettingPasswordLength,
+  type SettingPasswordLength,
 } from "./settings";
 
 const charMap: Record<CharType, string> = {
@@ -62,7 +62,7 @@ export const generatePassword = (options: GeneratePasswordArgs) => {
     .filter(([_, v]) => v)
     .map(([k]) => k as CharType);
 
-  let passwordChars: string[] = [];
+  const passwordChars: string[] = [];
 
   for (let i = 0; i < options.length; i++) {
     const pos = getRandom(passwordChars.length + 1);
