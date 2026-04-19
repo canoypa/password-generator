@@ -10,7 +10,7 @@ const Output = styled(InputBase)(({ theme }) => ({
   padding: "0 16px",
   height: "56px",
   borderRadius: "4px",
-  backgroundColor: theme.vars.palette.surfaceVariant.main,
+  backgroundColor: (theme.vars ?? theme).palette.surfaceVariant.main,
   fontFamily: "monospace",
 }));
 
@@ -66,7 +66,7 @@ export const Generate: FC = () => {
   useEffect(() => generate(), [generate]);
 
   return (
-    <Stack rowGap={3}>
+    <Stack sx={{ rowGap: 3 }}>
       <Output
         value={password}
         readOnly
@@ -75,7 +75,7 @@ export const Generate: FC = () => {
         }}
       />
 
-      <Stack direction="row" columnGap={2}>
+      <Stack sx={{ flexDirection: "row", columnGap: 2 }}>
         <Button variant="filledTonal" fullWidth onClick={generate}>
           Generate
         </Button>

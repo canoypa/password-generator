@@ -5,8 +5,10 @@ import { Link } from "./Link";
 export const Footer: FC = () => {
   return (
     <footer>
-      <Box display="flex" justifyContent="center" px={2}>
-        <Stack direction="row" alignItems="center" columnGap={2}>
+      <Box sx={{ display: "flex", justifyContent: "center", px: 2 }}>
+        <Stack
+          sx={{ flexDirection: "row", alignItems: "center", columnGap: 2 }}
+        >
           <Link
             href={`https://github.com/canoypa/password-generator/releases/tag/v${import.meta.env.APP_VERSION}`}
           >
